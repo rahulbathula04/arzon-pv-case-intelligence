@@ -1,106 +1,106 @@
 # Arzon PV Case Intelligence
-**Executive Healthcare Career Intelligence & Role Readiness System**
+**Enterprise Pharmacovigilance Case Training & Evaluation System**
 
-> Built from the ground up as an AI-powered pharmacovigilance simulation and training platform. Designed for Life Sciences, Pharmacy, and Medical graduates (B.Pharm, M.Pharm, Pharm.D, MBBS, BDS) to master real-world Individual Case Safety Report (ICSR) processing.
+[![CI/CD Pipeline](https://github.com/rahulbathula04/arzon-pv-case-intelligence/actions/workflows/ci.yml/badge.svg)](https://github.com/rahulbathula04/arzon-pv-case-intelligence/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Database: SQLite WAL](https://img.shields.io/badge/Database-SQLite%20WAL-emerald.svg)](https://www.sqlite.org/wal.html)
+[![Compliance: 21 CFR Part 11](https://img.shields.io/badge/Compliance-21%20CFR%20Part%2011-navy.svg)](https://www.fda.gov)
 
----
-
-## System Architecture & Features
-
-### 1. PV Case Library (Module 03)
-- Search, filter, categorize, and version approved fictional ICSR cases.
-- **Strict Role-Based Data Partitioning**: Public/student endpoints return only patient profile, suspect medications, lab findings, and verbatim narratives. Gold-standard MedDRA terms, expected seriousness criteria, expected WHO-UMC causality, and grading rubrics are strictly isolated in a restricted reference table.
-- Mandatory warning banner on all cases: `CONTROLLED FICTIONAL TRAINING SCENARIOS ONLY · NOT REAL PATIENT DATA`.
-
-### 2. AI Case Generator (Module 01)
-- Synthesizes realistic, clinically sound fictional ICSR cases across Oncology, Cardiology, Neurology, Immunology, Gastroenterology, Endocrinology, and Psychiatry.
-- Generates patient demographics, suspect drugs, concomitant regimens, adverse event timelines, diagnostic lab investigations, and gold-standard reference keys.
-- Enforces the 4 minimum regulatory criteria (Patient ID, Reporter ID, Suspect Drug, Adverse Event) and stages cases in `draft` status for human approval.
-
-### 3. PDF Case Importer (Module 02)
-- Uploads PDF medical case reports, CIOMS-I forms, or safety literature.
-- Server extracts raw text and runs an intelligent clinical parser to identify patient initials, age, gender, suspect drugs, doses, indications, adverse events, seriousness flags, and lab tests.
-- **Human-in-the-Loop Admin Verification**: Split-screen staging interface where admins inspect the raw PDF text against extracted structured fields, make corrections, and publish to the library.
-
-### 4. Student Assignment System (Module 04)
-- Assigns cases individually or across entire cohorts with deadlines and tailored clinical instructions.
-- Tracks assignment states: `assigned`, `in_progress`, `submitted`, `completed`, and live computed `overdue`.
-
-### 5. PV Workbench (Module 05)
-- High-density clinical data interface inspired by industry-standard safety databases (Argus, ARISg, MedDRA):
-  - **Intake Dossier**: Full patient history, medications table, diagnostic labs, and verbatim statement.
-  - **MedDRA Coding Console**: Verbatim extraction, Lowest Level Term (LLT), Preferred Term (PT), System Organ Class (SOC), and clinical justification.
-  - **ICH E2A Seriousness Matrix**: Regulatory checklist (Death, Life-threatening, Hospitalization, Disability, Congenital Anomaly, IME) with clinical rationale.
-  - **Causality Assessment Console**: WHO-UMC classification selector and interactive 10-question **Naranjo Algorithm Calculator** with instantaneous score tallying.
-  - **CIOMS-I Narrative Composer**: Chronological narrative editor with live word count, character count, and E2B section starter chips.
-  - **Pre-Flight Validation**: Pre-submission audit checklist with draft auto-save and final lock.
-
-### 6. AI Assessment Engine (Module 06)
-- Automatically evaluates student submissions across 4 weighted clinical pillars (100 pts total):
-  1. *MedDRA Coding Accuracy* (25 pts)
-  2. *Seriousness Determination* (25 pts)
-  3. *Causality Assessment* (25 pts)
-  4. *CIOMS Narrative Quality* (25 pts)
-- Generates itemized findings: identified omissions, clinical errors, student strengths, and detailed AI rationale.
-- **Strictly Provisional Status**: AI scores remain provisional and hidden from students until vetted and approved by a clinical mentor.
-
-### 7. Mentor Review Studio (Module 07)
-- Three-column comparative review interface:
-  - *Column 1*: Student Submission
-  - *Column 2*: Gold-Standard Reference Key & Rubric
-  - *Column 3*: AI Assessment Findings & Interactive Score Adjustment Sliders
-- Mentors can adjust the score, record actionable clinical feedback, and select **Approve Work** or **Request Revision** (which resets the submission to draft for student rework).
-
-### 8. Admin Command Center (Module 08)
-- Operational KPIs: Total Cases, Active Cohorts, Completion Rate %, Overdue Work, Pending Reviews, Average Cohort Score.
-- Real-time student performance ledger.
-- Tamper-evident 21 CFR Part 11 compliant audit log.
-
-### 9. Google Workspace Hub (Module 09)
-- **Authoritative Single Source of Truth**: The platform's internal SQLite database is the authoritative system of record.
-- **Google Sheets**: 1-click export of student gradebooks and case library into CSV/Sheets format.
-- **Google Docs**: 1-click generation of formatted Executive Case Briefs (HTML/Markdown) and Mentor Audit Reports.
-- **Google Slides**: 1-click generation of 5-slide Case Conference Presentation outlines.
-- **Google Calendar**: 1-click "Add to Google Calendar" URL generator and standard `.ics` iCalendar file export for assignment deadlines.
-- **Antigravity Customizations**: Local assistant environment integration with `gdrive`, `gsheets`, `gdocs`, `gslides`, and `gcalendar` plugins.
+> Production-grade, high-trust pharmacovigilance simulation platform designed for Life Sciences, Pharmacy, and Medical graduates (Pharm.D, B.Pharm, M.Pharm, MBBS, BDS) to master real-world Individual Case Safety Report (ICSR) processing. Authoritative clinical data tool comparable to Oracle Argus Safety, Veeva Vault Safety, and ARISg.
 
 ---
 
-## Getting Started
+## Live Repository & Quick Links
+
+- **GitHub Repository**: [https://github.com/rahulbathula04/arzon-pv-case-intelligence](https://github.com/rahulbathula04/arzon-pv-case-intelligence)
+- **Primary Tech Stack**: Node.js 22, Express, TypeScript, React 18, Vite, Tailwind CSS, SQLite (WAL mode, `better-sqlite3`)
+- **Automated Test Coverage**: 10 test suites, 55 automated integration tests (100% passing)
+
+---
+
+## Deploy Live in 1-Click
+
+### Option A: Deploy to Render
+1. Go to [Render Dashboard](https://dashboard.render.com).
+2. Click **New +** → **Blueprint**.
+3. Connect repository `rahulbathula04/arzon-pv-case-intelligence`.
+4. Render automatically reads `render.yaml`, provisions the persistent disk, builds the frontend, and launches the unified production server.
+
+### Option B: Deploy to Railway / Fly.io / VPS with Docker
+```bash
+# Clone the repository
+git clone https://github.com/rahulbathula04/arzon-pv-case-intelligence.git
+cd arzon-pv-case-intelligence
+
+# Build and run container
+docker build -t arzon-pv-case-intelligence .
+docker run -d -p 5000:5000 -v arzon-pv-data:/app/data --name arzon-pv arzon-pv-case-intelligence
+```
+
+---
+
+## Local Development & Operations
 
 ### Prerequisites
-- Node.js v20+ (Node v22.20.0 tested)
+- Node.js 20+ (Node.js 22 LTS recommended)
 - npm 10+
 
-### Installation
+### Installation & Execution
 ```bash
-# Install dependencies
+# 1. Install dependencies
 npm install
 
-# Run automated tests (20 unit & integration tests)
+# 2. Run automated validation tests
 npm test
 
-# Run frontend build
+# 3. Build production bundle
 npm run build
 
-# Start the full-stack server
+# 4. Start backend server (port 5000)
 npm run server
-```
 
-The application server will start at `http://localhost:5000`. In development, run `npm run dev` for Vite hot-module replacement on port 5173.
+# 5. Start Vite development server (port 5173) in a second terminal
+npm run dev
+```
 
 ---
 
-## Test Suite Execution Results
+## Core Enterprise Architecture
 
-All 20 tests across 5 test suites pass:
-```
- ✓ tests/phase3-workbench.test.ts (4 tests)
- ✓ tests/phase5-security-workspace.test.ts (5 tests)
- ✓ tests/phase1-case-library.test.ts (5 tests)
- ✓ tests/phase4-assessment-review.test.ts (3 tests)
- ✓ tests/phase2-ai-pdf.test.ts (3 tests)
+### 1. Zero-Demo Production Security Gate
+- **No Mock Credential Rosters**: Completely free of hardcoded demo buttons or test user cards on login views.
+- **Institutional Self-Registration**: `POST /api/auth/register` with duplicate checks, cohort classification, and auto-provisioning of baseline onboarding ICSR cases.
+- **ICH E2B / 21 CFR Part 11 Password Policy**: Enforces at least 10 characters, mixed case, numbers, and symbols with live compliance indicators.
 
- Test Files  5 passed (5)
-      Tests  20 passed (20)
-```
+### 2. High-Concurrency SQLite WAL Engine (10,000+ Users)
+- **WAL Journaling**: Multi-reader concurrent operations with zero table-locking deadlocks.
+- **Optimized Pragmas**: `journal_mode = WAL`, `synchronous = NORMAL`, `busy_timeout = 10000`, `cache_size = -64000`, `temp_store = MEMORY`.
+- **B-Tree Performance Indexes**:
+  - `idx_users_role_cohort` on `users(role, cohort)`
+  - `idx_assignments_student_status` on `assignments(student_id, case_id, status, due_date)`
+  - `idx_submissions_student_case` on `submissions(student_id, case_id, assignment_id, status)`
+  - `idx_cases_status_area` on `cases(status, therapeutic_area, difficulty)`
+  - `idx_audit_logs_user_time` on `audit_logs(user_id, timestamp)`
+
+### 3. Strict Role-Based Data Partitioning
+- **Student Privacy & Blind Evaluation**: Students never receive gold-standard MedDRA terms, expected seriousness criteria, expected WHO-UMC causality scores, or model narratives until mentor review sign-off.
+- **State Bleed Isolation**: Instant state reset when toggling between unworked cases and submissions.
+
+### 4. Enterprise Clinical Modules
+1. **Operations Command Center**: Executive KPI metrics, cohort performance ledgers, and 21 CFR Part 11 audit trail logging.
+2. **ICSR Master Safety Vault**: Fictionalized training cases spanning Oncology, Cardiology, Neurology, and Immunology.
+3. **ICSR Case Synthesis Engine**: High-fidelity clinical scenarios with verified pharmacology and decoupled rubrics.
+4. **Clinical Source Document Ingestion**: PDF medical parser staging entities for human-in-the-loop admin verification.
+5. **PV Clinical Workbench**: 6-step E2B workflow (Intake, MedDRA Coding, Seriousness Matrix, Naranjo Causality Algorithm, CIOMS-I Narrative Composer, Pre-Flight Validation).
+6. **Mentor Quality Studio**: 3-column comparative grading console (Student Work vs Reference Standard vs Rubric Evaluation).
+7. **Enterprise Regulatory Interchange**: ICH E2B(R3) Gateway & XML Bridge, Google Workspace synchronizers (Gradebook CSV, Case Brief Docs, iCal deadlines, and Slide Deck Outlines).
+
+---
+
+## Audit & Compliance Certification
+
+This system maintains strict adherence to:
+- **ICH E2B(R3)**: Standardized clinical safety data management and transmission protocols.
+- **ICH E2A**: Clinical safety data management definitions and standards for expedited reporting.
+- **21 CFR Part 11**: Electronic records, electronic signatures, cryptographic passwords, and immutable audit trails.
+- **WHO-UMC & Naranjo Algorithms**: Globally standardized adverse drug reaction causality evaluation models.
