@@ -117,23 +117,23 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onSelectTab 
   }, [user?.role, currentTab, visibleTabs, onSelectTab]);
 
   return (
-    <nav className="border-b border-slate-200 bg-white sticky top-[61px] z-30 transition-all shadow-2xs">
+    <nav className="border-b border-black/[0.06] bg-white/80 backdrop-blur-md sticky top-[61px] z-30 transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex space-x-1 overflow-x-auto py-2 scrollbar-none items-center">
+        <div className="flex space-x-1.5 overflow-x-auto py-2 scrollbar-none items-center">
           {visibleTabs.map(tab => {
             const isActive = currentTab === tab.id;
             return (
               <button
                 key={tab.id}
                 onClick={() => onSelectTab(tab.id)}
-                className={`flex items-center space-x-2 px-3 py-1.5 rounded-md text-xs font-mono transition-all duration-150 whitespace-nowrap cursor-pointer ${
+                className={`flex items-center space-x-2 px-3.5 py-1.5 rounded-full text-xs transition-all duration-150 whitespace-nowrap cursor-pointer active:scale-98 ${
                   isActive
-                    ? 'bg-slate-900 text-white font-semibold shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 font-medium'
+                    ? 'bg-slate-900 text-white font-medium shadow-xs'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-black/[0.04] font-medium'
                 }`}
               >
-                <span className={isActive ? 'text-white' : 'text-slate-500'}>{tab.icon}</span>
-                <span className="uppercase tracking-wider">{tab.label}</span>
+                <span className={isActive ? 'text-white' : 'text-slate-400'}>{tab.icon}</span>
+                <span className="font-mono text-[11px] tracking-wide">{tab.label}</span>
               </button>
             );
           })}

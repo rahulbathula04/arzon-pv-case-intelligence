@@ -51,6 +51,10 @@ export const AppContent: React.FC = () => {
     setCurrentTab('workbench');
   };
 
+  const isStudent = user?.role === 'student';
+  const isMentor = user?.role === 'mentor';
+  const isAdmin = user?.role === 'admin';
+
   return (
     <div className="min-h-screen flex flex-col bg-[#FAF9F6]">
       <Header onSelectTab={setCurrentTab} />
@@ -65,7 +69,7 @@ export const AppContent: React.FC = () => {
           />
         )}
 
-        {currentTab === 'workbench' && (
+        {currentTab === 'workbench' && (isStudent || isAdmin) && (
           <StudentWorkbenchPage
             initialCaseId={selectedCaseIdForWorkbench}
           />
@@ -80,7 +84,7 @@ export const AppContent: React.FC = () => {
           />
         )}
 
-        {currentTab === 'generator' && (
+        {currentTab === 'generator' && isAdmin && (
           <CaseGeneratorPage
             onCasePublished={(id) => {
               setCurrentTab('cases');
@@ -88,7 +92,7 @@ export const AppContent: React.FC = () => {
           />
         )}
 
-        {currentTab === 'importer' && (
+        {currentTab === 'importer' && isAdmin && (
           <PdfImporterPage
             onCaseSaved={(id) => {
               setCurrentTab('cases');
@@ -96,15 +100,15 @@ export const AppContent: React.FC = () => {
           />
         )}
 
-        {currentTab === 'reviews' && (
+        {currentTab === 'reviews' && (isMentor || isAdmin) && (
           <MentorReviewPage />
         )}
 
-        {currentTab === 'dashboard' && (
+        {currentTab === 'dashboard' && isAdmin && (
           <AdminDashboardPage />
         )}
 
-        {currentTab === 'workspace' && (
+        {currentTab === 'workspace' && (isMentor || isAdmin) && (
           <GoogleWorkspacePage />
         )}
       </main>
