@@ -6,6 +6,7 @@ export interface User {
   fullName: string;
   role: UserRole;
   cohort?: string;
+  mustChangePassword?: boolean;
   createdAt: string;
 }
 
@@ -82,7 +83,59 @@ export interface PVCase {
   receiptDate: string;
   createdAt: string;
   updatedAt: string;
+  generationMetadata?: GenerationMetadata;
   referenceKey?: ReferenceKey; // Populated only for Admin and Mentor roles
+}
+
+export interface GenerationMetadata {
+  provider: 'google-gemini' | 'fallback-deterministic';
+  model: string;
+  generationTimeMs: number;
+  promptVersion: string;
+  isFallback: boolean;
+  setupMessage?: string;
+  validation?: {
+    isValid: boolean;
+    errors: string[];
+    warnings: string[];
+  };
+}
+
+export interface StagedCase {
+  tempId: string;
+  title: string;
+  therapeuticArea: string;
+  difficulty: CaseDifficulty;
+  patientInitials: string;
+  patientAge: number;
+  patientGender: 'Male' | 'Female' | 'Other' | 'Unknown';
+  patientWeightKg?: number;
+  medicalHistory: string;
+  suspectDrugs: SuspectDrug[];
+  concomitantDrugs: SuspectDrug[];
+  adverseEvents: AdverseEvent[];
+  labTests: LabTest[];
+  verbatimNarrative: string;
+  reporterType: string;
+  receiptDate: string;
+  referenceKey: ReferenceKey;
+  generationMetadata: GenerationMetadata;
+  duplicateCheck?: {
+    isDuplicate: boolean;
+    existingCaseNumber?: string;
+    existingTitle?: string;
+  };
+}
+
+export interface CaseGenerationRequest {
+  therapeuticArea: string;
+  difficulty: CaseDifficulty;
+  suspectDrug?: string;
+  reactionType?: string;
+  complexity?: 'Standard' | 'High';
+  reporterType?: string;
+  caseCount?: number;
+  customNotes?: string;
 }
 
 export interface ReferenceKey {

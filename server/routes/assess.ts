@@ -210,6 +210,21 @@ assessRouter.get('/submission/:submissionId', (req, res) => {
   const { submissionId } = req.params;
   const user = req.user;
 
+  if (!user) {
+    return res.status(401).json({ error: 'Authentication required' });
+  }
+
+  // Verify student ownership
+  if (user.role === 'student') {
+    const sub = db.prepare('SELECT student_id FROM submissions WHERE id = ?').get(submissionId) as any;
+    if (sub && sub.student_id !== user.id) {
+      return res.status(403).json({
+        error: 'Forbidden',
+        message: 'Access denied: You cannot view evaluation reports for another student\'s submission.'
+      });
+    }
+  }
+
   const row = db.prepare('SELECT * FROM assessments WHERE submission_id = ?').get(submissionId) as any;
   if (!row) {
     return res.json({ assessment: null });

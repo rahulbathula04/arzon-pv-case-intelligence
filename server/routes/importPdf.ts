@@ -1,8 +1,7 @@
 import { Router } from 'express';
 import multer from 'multer';
 import * as pdfParseModule from 'pdf-parse';
-const pdfParse: any = (pdfParseModule as any).default || pdfParseModule;
-import { db } from '../db/database.js';
+import { db, computeClinicalFingerprint } from '../db/database.js';
 import { requireRole } from '../middleware/auth.js';
 
 export const importPdfRouter = Router();
@@ -11,6 +10,32 @@ const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 15 * 1024 * 1024 } // 15MB limit
 });
+
+async function extractTextFromPdf(dataBuffer: Buffer): Promise<string> {
+  try {
+    // pdf-parse v2+ class API
+    const PDFParseClass = (pdfParseModule as any).PDFParse || (pdfParseModule as any).default?.PDFParse;
+    if (typeof PDFParseClass === 'function') {
+      const parser = new PDFParseClass({ data: dataBuffer });
+      const res = await parser.getText();
+      await parser.destroy();
+      return res?.text || '';
+    }
+    // pdf-parse v1 function API
+    if (typeof (pdfParseModule as any).default === 'function') {
+      const res = await (pdfParseModule as any).default(dataBuffer);
+      return res?.text || '';
+    }
+    if (typeof (pdfParseModule as any) === 'function') {
+      const res = await (pdfParseModule as any)(dataBuffer);
+      return res?.text || '';
+    }
+  } catch (parseErr: any) {
+    console.error('Inner PDF parser error:', parseErr);
+    throw new Error('PDF parsing failed: ' + (parseErr.message || 'Corrupt or unreadable PDF document'));
+  }
+  throw new Error('No compatible PDF parser available');
+}
 
 // Intelligent clinical entity parser for PDF text
 export function parseClinicalEntitiesFromText(text: string, filename: string) {
@@ -150,8 +175,7 @@ importPdfRouter.post('/pdf', requireRole(['admin', 'mentor']), upload.single('fi
     }
 
     const dataBuffer = req.file.buffer;
-    const pdfData = await pdfParse(dataBuffer);
-    const rawText = pdfData.text || '';
+    const rawText = await extractTextFromPdf(dataBuffer);
 
     if (!rawText.trim()) {
       return res.status(422).json({ error: 'PDF contained no readable text. It may be scanned or empty.' });
@@ -183,6 +207,22 @@ importPdfRouter.post('/verify-and-save', requireRole(['admin', 'mentor']), (req,
     return res.status(400).json({ error: 'Missing mandatory verified case fields' });
   }
 
+  // Check duplicate via clinical fingerprint
+  const fingerprint = computeClinicalFingerprint({
+    title, therapeuticArea, patientInitials, patientAge: Number(patientAge),
+    patientGender, suspectDrugs, adverseEvents
+  });
+
+  const existingByFp = db.prepare('SELECT id, case_number, title FROM cases WHERE clinical_fingerprint = ?').get(fingerprint) as any;
+  if (existingByFp) {
+    return res.status(409).json({
+      error: 'Duplicate case detected',
+      message: `An identical case already exists in the library (${existingByFp.case_number}: "${existingByFp.title}").`,
+      existingCaseNumber: existingByFp.case_number,
+      existingCaseId: existingByFp.id
+    });
+  }
+
   const caseId = `case-pdf-${Date.now()}`;
   const areaCode = therapeuticArea.slice(0, 3).toUpperCase();
   const caseNumber = `ARZ-${new Date().getFullYear()}-${areaCode}-PDF${Math.floor(100 + Math.random() * 899)}`;
@@ -190,13 +230,13 @@ importPdfRouter.post('/verify-and-save', requireRole(['admin', 'mentor']), (req,
   // Save case
   const insertCase = db.prepare(`
     INSERT INTO cases (
-      id, case_number, title, therapeutic_area, difficulty, source_type,
+      id, case_number, clinical_fingerprint, title, therapeutic_area, difficulty, source_type,
       is_fictional, fictional_disclaimer, status, active_version,
       patient_initials, patient_age, patient_gender, patient_weight_kg,
       medical_history, suspect_drugs, concomitant_drugs, adverse_events,
       lab_tests, verbatim_narrative, reporter_type, receipt_date
     ) VALUES (
-      ?, ?, ?, ?, ?, 'pdf_imported',
+      ?, ?, ?, ?, ?, ?, 'pdf_imported',
       1, 'CONTROLLED FICTIONAL TRAINING SCENARIO · SOURCED FROM VERIFIED CASE STUDY LITERATURE', 'approved', 1,
       ?, ?, ?, ?,
       ?, ?, ?, ?,
@@ -205,7 +245,7 @@ importPdfRouter.post('/verify-and-save', requireRole(['admin', 'mentor']), (req,
   `);
 
   insertCase.run(
-    caseId, caseNumber, title, therapeuticArea, difficulty || 'Intermediate',
+    caseId, caseNumber, fingerprint, title, therapeuticArea, difficulty || 'Intermediate',
     patientInitials || 'P.X.', Number(patientAge) || 50, patientGender || 'Unknown',
     patientWeightKg ? Number(patientWeightKg) : 70,
     medicalHistory || 'Extracted from source case study.',

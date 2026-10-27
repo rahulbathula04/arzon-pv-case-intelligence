@@ -31,6 +31,7 @@ reviewsRouter.get('/pending', requireRole(['admin', 'mentor']), (req, res) => {
     JOIN cases c ON s.case_id = c.id
     LEFT JOIN reference_keys r ON c.id = r.case_id
     LEFT JOIN assessments a ON s.id = a.submission_id
+    WHERE s.status = 'submitted' AND (a.status IS NULL OR a.status = 'provisional')
     ORDER BY s.submitted_at DESC
   `;
 

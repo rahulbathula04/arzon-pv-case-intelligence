@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { db } from '../db/database.js';
+import { db, computeClinicalFingerprint } from '../db/database.js';
 import { isStaff, requireRole } from '../middleware/auth.js';
 import { PVCase, ReferenceKey } from '../../src/types/index.js';
 
@@ -29,6 +29,7 @@ function mapCaseRow(row: any, includeReferenceKey = false): PVCase {
     verbatimNarrative: row.verbatim_narrative,
     reporterType: row.reporter_type,
     receiptDate: row.receipt_date,
+    generationMetadata: row.generation_metadata ? JSON.parse(row.generation_metadata) : undefined,
     createdAt: row.created_at,
     updatedAt: row.updated_at
   };
@@ -163,18 +164,34 @@ casesRouter.post('/', requireRole(['admin']), (req, res) => {
     return res.status(400).json({ error: 'Missing required case fields' });
   }
 
+  // Duplicate case detection via normalized clinical fingerprint
+  const fingerprint = computeClinicalFingerprint({
+    title, therapeuticArea, patientInitials, patientAge: Number(patientAge),
+    patientGender, suspectDrugs, adverseEvents
+  });
+
+  const existingByFp = db.prepare('SELECT id, case_number, title FROM cases WHERE clinical_fingerprint = ?').get(fingerprint) as any;
+  if (existingByFp) {
+    return res.status(409).json({
+      error: 'Duplicate case detected',
+      message: `An identical clinical case already exists in the library (${existingByFp.case_number}: "${existingByFp.title}").`,
+      existingCaseNumber: existingByFp.case_number,
+      existingCaseId: existingByFp.id
+    });
+  }
+
   const id = `case-${Date.now()}`;
   const genCaseNumber = caseNumber || `ARZ-${new Date().getFullYear()}-${therapeuticArea.slice(0, 3).toUpperCase()}-${Math.floor(100 + Math.random() * 900)}`;
 
   const insertCase = db.prepare(`
     INSERT INTO cases (
-      id, case_number, title, therapeutic_area, difficulty, source_type,
+      id, case_number, clinical_fingerprint, title, therapeutic_area, difficulty, source_type,
       is_fictional, fictional_disclaimer, status, active_version,
       patient_initials, patient_age, patient_gender, patient_weight_kg,
       medical_history, suspect_drugs, concomitant_drugs, adverse_events,
       lab_tests, verbatim_narrative, reporter_type, receipt_date
     ) VALUES (
-      ?, ?, ?, ?, ?, ?,
+      ?, ?, ?, ?, ?, ?, ?,
       1, 'CONTROLLED FICTIONAL TRAINING SCENARIO · NOT REAL PATIENT DATA', ?, 1,
       ?, ?, ?, ?,
       ?, ?, ?, ?,
@@ -183,7 +200,7 @@ casesRouter.post('/', requireRole(['admin']), (req, res) => {
   `);
 
   insertCase.run(
-    id, genCaseNumber, title, therapeuticArea, difficulty || 'Intermediate', sourceType || 'curated',
+    id, genCaseNumber, fingerprint, title, therapeuticArea, difficulty || 'Intermediate', sourceType || 'curated',
     status || 'approved', patientInitials || 'P.X.', Number(patientAge) || 45, patientGender || 'Unknown',
     patientWeightKg ? Number(patientWeightKg) : null, medicalHistory || 'None reported',
     JSON.stringify(suspectDrugs || []), JSON.stringify(concomitantDrugs || []),
@@ -244,4 +261,29 @@ casesRouter.post('/:id/publish', requireRole(['admin']), (req, res) => {
   `).run(`log-${Date.now()}`, id, req.user?.id || 'usr-admin-01', `Published case ${existing.case_number}`);
 
   res.json({ success: true, message: `Case ${existing.case_number} published to student training library.` });
+});
+
+// DELETE /api/cases/:id - Admin deletes/archives a case and its cascade dependencies
+casesRouter.delete('/:id', requireRole(['admin']), (req, res) => {
+  const { id } = req.params;
+  const existing = db.prepare('SELECT id, case_number, title FROM cases WHERE id = ?').get(id) as any;
+  if (!existing) {
+    return res.status(404).json({ error: 'Case not found' });
+  }
+
+  // Foreign keys ON will cascade delete assignments, submissions, reference_keys, versions
+  db.prepare('DELETE FROM mentor_reviews WHERE submission_id IN (SELECT id FROM submissions WHERE case_id = ?)').run(id);
+  db.prepare('DELETE FROM assessments WHERE submission_id IN (SELECT id FROM submissions WHERE case_id = ?)').run(id);
+  db.prepare('DELETE FROM submissions WHERE case_id = ?').run(id);
+  db.prepare('DELETE FROM assignments WHERE case_id = ?').run(id);
+  db.prepare('DELETE FROM reference_keys WHERE case_id = ?').run(id);
+  db.prepare('DELETE FROM case_versions WHERE case_id = ?').run(id);
+  db.prepare('DELETE FROM cases WHERE id = ?').run(id);
+
+  db.prepare(`
+    INSERT INTO audit_logs (id, entity_type, entity_id, action, user_id, details)
+    VALUES (?, 'case', ?, 'DELETE_CASE', ?, ?)
+  `).run(`log-${Date.now()}`, id, req.user?.id || 'usr-admin-01', `Deleted case ${existing.case_number} (${existing.title})`);
+
+  res.json({ success: true, message: `Case ${existing.case_number} deleted successfully.` });
 });

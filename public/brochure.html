@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arzon PV Case Intelligence · Tri-Persona Operations Manual & Button Directory</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --arzon-ink: #0B1325;
+      --arzon-navy: #1B3F8B;
+      --arzon-paper: #FAF9F6;
+      --arzon-card: #FFFFFF;
+      --arzon-slate: #1E293B;
+      --arzon-body: #334155;
+      --arzon-muted: #64748B;
+      --arzon-border: #E2E8F0;
+      --arzon-gold: #B45309;
+      --arzon-emerald: #059669;
+      --arzon-purple: #7C3AED;
+      --arzon-blue: #2563EB;
+      --arzon-rose: #E11D48;
+      --arzon-amber: #D97706;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--arzon-paper);
+      color: var(--arzon-body);
+      line-height: 1.65;
+      font-size: 14px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Top Sticky Action Toolbar */
+    .top-toolbar {
+      position: sticky;
+      top: 0;
+      background: rgba(11, 19, 37, 0.96);
+      backdrop-filter: blur(10px);
+      color: white;
+      padding: 12px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .top-toolbar .logo-text {
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: 17px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: -0.01em;
+    }
+
+    .top-toolbar .logo-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      padding: 3px 7px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #38BDF8;
+      font-weight: 600;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 8px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      transition: all 0.15s ease-in-out;
+      border: 1px solid transparent;
+      user-select: none;
+    }
+
+    .btn-gold {
+      background: #D97706;
+      color: white;
+      border-color: #F59E0B;
+      box-shadow: 0 2px 6px rgba(217, 119, 6, 0.3);
+    }
+
+    .btn-gold:hover {
+      background: #B45309;
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: #1B3F8B;
+      color: white;
+      border-color: #2D58B5;
+    }
+
+    .btn-primary:hover {
+      background: #234FB0;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.12);
+      color: #F1F5F9;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.22);
+      color: white;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 36px 24px 100px;
+    }
+
+    /* Masthead Banner */
+    .masthead {
+      background: var(--arzon-ink);
+      color: white;
+      padding: 50px 48px;
+      border-radius: 14px;
+      margin-bottom: 36px;
+      box-shadow: 0 16px 36px rgba(11, 19, 37, 0.16);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .masthead::before {
+      content: "";
+      position: absolute;
+      top: -120px;
+      right: -80px;
+      width: 380px;
+      height: 380px;
+      background: radial-gradient(circle, rgba(27, 63, 139, 0.5) 0%, rgba(56, 189, 248, 0.1) 50%, transparent 75%);
+      pointer-events: none;
+    }
+
+    .masthead-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: #38BDF8;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .masthead-eyebrow .dot {
+      width: 8px;
+      height: 8px;
+      background: #38BDF8;
+      border-radius: 50%;
+      display: inline-block;
+      box-shadow: 0 0 10px #38BDF8;
+    }
+
+    .masthead h1 {
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: 42px;
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 14px;
+      color: #FFFFFF;
+    }
+
+    .masthead-subtitle {
+      font-size: 15px;
+      color: #94A3B8;
+      max-width: 840px;
+      line-height: 1.65;
+      margin-bottom: 26px;
+    }
+
+    .masthead-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      padding-top: 22px;
+    }
+
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #E2E8F0;
+      padding: 4px 9px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* Persona Navigation Bar */
+    .persona-nav {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 36px;
+      border-bottom: 2px solid var(--arzon-border);
+      padding-bottom: 14px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .persona-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 9px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--arzon-slate);
+      background: #EDEAE4;
+      border: 1px solid var(--arzon-border);
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .persona-pill:hover {
+      background: #E2DDD5;
+      color: var(--arzon-ink);
+      transform: translateY(-1px);
+    }
+
+    .persona-pill.active {
+      background: var(--arzon-ink);
+      color: white;
+      border-color: var(--arzon-ink);
+      box-shadow: 0 4px 12px rgba(11, 19, 37, 0.15);
+    }
+
+    /* Section Cards */
+    .section-card {
+      background: var(--arzon-card);
+      border: 1px solid var(--arzon-border);
+      border-radius: 12px;
+      padding: 38px 40px;
+      margin-bottom: 38px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+      position: relative;
+    }
+
+    .section-card.overview-theme { border-left: 6px solid var(--arzon-navy); }
+    .section-card.student-theme  { border-left: 6px solid var(--arzon-blue); }
+    .section-card.mentor-theme   { border-left: 6px solid var(--arzon-emerald); }
+    .section-card.admin-theme    { border-left: 6px solid var(--arzon-purple); }
+    .section-card.catalog-theme  { border-left: 6px solid var(--arzon-gold); }
+
+    .section-header {
+      margin-bottom: 26px;
+      border-bottom: 1px solid var(--arzon-border);
+      padding-bottom: 18px;
+    }
+
+    .section-header .eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 5px;
+    }
+
+    .section-header h2 {
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--arzon-ink);
+      letter-spacing: -0.015em;
+    }
+
+    .section-header p {
+      font-size: 13.5px;
+      color: var(--arzon-muted);
+      margin-top: 5px;
+      max-width: 800px;
+    }
+
+    /* Grids */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      margin-bottom: 22px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    @media (max-width: 840px) {
+      .grid-2, .grid-3 {
+        grid-template-columns: 1fr;
+      }
+      .masthead {
+        padding: 32px 24px;
+      }
+      .masthead h1 {
+        font-size: 30px;
+      }
+      .section-card {
+        padding: 24px;
+      }
+    }
+
+    /* Step Cards & Sub-Panels */
+    .feature-card {
+      background: #FAF9F6;
+      border: 1px solid var(--arzon-border);
+      border-radius: 9px;
+      padding: 22px;
+      transition: all 0.2s ease;
+    }
+
+    .feature-card:hover {
+      border-color: #CBD5E1;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    }
+
+    .badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      font-weight: 700;
+      color: white;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .badge-blue    { background: var(--arzon-blue); }
+    .badge-emerald { background: var(--arzon-emerald); }
+    .badge-purple  { background: var(--arzon-purple); }
+    .badge-slate   { background: var(--arzon-ink); }
+    .badge-gold    { background: var(--arzon-amber); }
+    .badge-navy    { background: var(--arzon-navy); }
+
+    .feature-card h3 {
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--arzon-ink);
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .feature-card p {
+      font-size: 13px;
+      color: var(--arzon-body);
+      line-height: 1.6;
+    }
+
+    /* Interactive Button Exploration Block */
+    .button-ledger {
+      background: white;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      margin-top: 14px;
+      overflow: hidden;
+    }
+
+    .button-ledger-header {
+      background: #F8FAFC;
+      padding: 8px 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #475569;
+      border-bottom: 1px solid #E2E8F0;
+    }
+
+    .button-item {
+      padding: 10px 14px;
+      border-bottom: 1px solid #F1F5F9;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .button-item:last-child {
+      border-bottom: none;
+    }
+
+    .button-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: #0F172A;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .button-tag {
+      font-size: 9px;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-weight: 600;
+    }
+
+    .button-tag-cta { background: #0B1325; color: white; }
+    .button-tag-action { background: #EFF6FF; color: #1D4ED8; }
+    .button-tag-util { background: #F1F5F9; color: #475569; }
+
+    .button-desc {
+      font-size: 12px;
+      color: #475569;
+      line-height: 1.45;
+    }
+
+    .button-output {
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: #059669;
+      margin-top: 2px;
+    }
+
+    /* Checklists and Callouts */
+    .checklist {
+      list-style: none;
+      margin-top: 10px;
+    }
+
+    .checklist li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 6px;
+      font-size: 12.5px;
+      color: var(--arzon-body);
+    }
+
+    .checklist li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--arzon-emerald);
+      font-weight: bold;
+    }
+
+    .callout {
+      background: #F8FAFC;
+      border-left: 4px solid var(--arzon-navy);
+      padding: 16px 20px;
+      border-radius: 0 8px 8px 0;
+      margin: 20px 0;
+      font-size: 13px;
+      color: #0F172A;
+    }
+
+    .callout-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 5px;
+      color: var(--arzon-navy);
+    }
+
+    .callout-warning {
+      background: #FFFBEB;
+      border-left-color: #D97706;
+      color: #78350F;
+    }
+    .callout-warning .callout-title {
+      color: #B45309;
+    }
+
+    .callout-emerald {
+      background: #ECFDF5;
+      border-left-color: #059669;
+      color: #064E3B;
+    }
+    .callout-emerald .callout-title {
+      color: #047857;
+    }
+
+    /* Tables */
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin: 20px 0;
+    }
+
+    .spec-table th, .spec-table td {
+      padding: 11px 15px;
+      border: 1px solid var(--arzon-border);
+      text-align: left;
+    }
+
+    .spec-table th {
+      background: #F8FAFC;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--arzon-slate);
+    }
+
+    .spec-table tr:nth-child(even) td {
+      background: #FAFAFA;
+    }
+
+    .role-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 3px 7px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      display: inline-block;
+    }
+
+    /* Print Optimizations */
+    @media print {
+      body {
+        background: white !important;
+        color: #111827 !important;
+        font-size: 10.5pt;
+      }
+      .top-toolbar, .persona-nav {
+        display: none !important;
+      }
+      .container {
+        max-width: 100% !important;
+        padding: 0 !important;
+      }
+      .masthead {
+        background: #0B1325 !important;
+        color: white !important;
+        padding: 24pt !important;
+        page-break-after: avoid;
+        box-shadow: none !important;
+        border: none !important;
+      }
+      .section-card {
+        page-break-inside: avoid;
+        box-shadow: none !important;
+        border: 1pt solid #CBD5E1 !important;
+        margin-bottom: 20pt !important;
+        padding: 20pt !important;
+      }
+      .button-ledger {
+        border: 1pt solid #CBD5E1 !important;
+      }
+      @page {
+        margin: 12mm;
+        size: A4 portrait;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Actions Toolbar (Hidden on Print) -->
+  <header class="top-toolbar">
+    <div class="logo-text">
+      <span>ARZON GLOBAL</span>
+      <span class="logo-badge">PV CASE INTELLIGENCE</span>
+      <span style="font-size: 12px; color: #94A3B8; font-weight: normal; margin-left: 6px;" class="hidden sm:inline">Tri-Persona Operations Manual & Button Directory</span>
+    </div>
+    <div class="toolbar-actions">
+      <button onclick="window.print()" class="btn btn-gold" title="Save as PDF or Print">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+        <span>Print / Save as PDF</span>
+      </button>
+      <a href="/api/brochure/download" class="btn btn-primary" title="Download HTML Source File">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        <span>Download HTML File</span>
+      </a>
+      <button onclick="downloadMarkdownManual()" class="btn btn-secondary" title="Download Markdown Guide">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        <span>Download Markdown</span>
+      </button>
+      <a href="/" class="btn btn-secondary" title="Launch Application">
+        <span>Launch App</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+      </a>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- Executive Masthead Banner -->
+    <div class="masthead">
+      <div class="masthead-eyebrow">
+        <span class="dot"></span>
+        HEALTHCARE CAREER INTELLIGENCE · ARZON GLOBAL PLATFORM DOCTRINE
+      </div>
+      <h1>Arzon PV Case Intelligence</h1>
+      <p class="masthead-subtitle">
+        The Official Tri-Persona Operations Manual & Button-by-Button System Directory. Authoritative guidance for <strong>Students & PV Trainees</strong>, <strong>Faculty Mentors</strong>, and <strong>Arzon Program Administrators</strong>. Master real-world ICSR processing, MedDRA 26.0 coding, ICH E2A seriousness adjudication, WHO-UMC causality calculation, and CIOMS-I narrative synthesis.
+      </p>
+      <div class="masthead-tags">
+        <span class="tag">ICH E2B(R3) Standards</span>
+        <span class="tag">ICH E2A Seriousness</span>
+        <span class="tag">CIOMS-I Narrative</span>
+        <span class="tag">MedDRA 26.0 PT/SOC</span>
+        <span class="tag">WHO-UMC Causality</span>
+        <span class="tag">Naranjo 10-Question Score</span>
+        <span class="tag">Air-Gapped Reference Keys</span>
+        <span class="tag">4-Pillar AI Scoring</span>
+        <span class="tag">Google Workspace Hub</span>
+      </div>
+    </div>
+
+    <!-- Quick Persona Tab Switcher (Screen Only) -->
+    <nav class="persona-nav">
+      <a href="#overview" class="persona-pill active">System Overview</a>
+      <a href="#student" class="persona-pill">Persona 01: Student Field Guide</a>
+      <a href="#mentor" class="persona-pill">Persona 02: Mentor Review Studio</a>
+      <a href="#admin" class="persona-pill">Persona 03: Arzon Admin Command</a>
+      <a href="#buttons" class="persona-pill">Face-by-Face Button Directory</a>
+      <a href="#matrix" class="persona-pill">Role Matrix & Deliverables</a>
+    </nav>
+
+    <!-- SECTION 1: SYSTEM OVERVIEW -->
+    <section id="overview" class="section-card overview-theme">
+      <div class="section-header">
+        <div class="eyebrow" style="color: var(--arzon-navy);">SYSTEM ARCHITECTURE & FIRST PRINCIPLES</div>
+        <h2>What is Arzon PV Case Intelligence?</h2>
+        <p>An enterprise-grade pharmacovigilance simulation platform bridging academic pharmacology and CRO drug safety operations.</p>
+      </div>
+
+      <p style="margin-bottom: 16px; font-size: 13.5px; line-height: 1.7;">
+        In multinational pharmaceutical corporations, biotechnology sponsors, and global Contract Research Organizations (CROs like IQVIA, Parexel, Syneos, Fortrea, Cognizant, and Accenture), <strong>Drug Safety Associates (DSAs)</strong> and <strong>Pharmacovigilance Specialists</strong> are the front line of patient safety. They intake spontaneous reports, clinical trial adverse events, and safety literature, code medical events using MedDRA, assess regulatory seriousness, calculate drug-event causality, and author regulatory CIOMS-I/E2B narratives.
+      </p>
+      <p style="margin-bottom: 20px; font-size: 13.5px; line-height: 1.7;">
+        A single misclassified term, overlooked seriousness criterion, or flawed causality evaluation can trigger punitive audit findings from global regulatory bodies (US FDA, EMA, UK MHRA, India CDSCO). <strong>Arzon PV Case Intelligence</strong> replicates the high-stakes operational workflow of industry safety databases like <em>Oracle Argus Safety</em> and <em>Veeva Vault Safety</em>, training pharmacy (B.Pharm, M.Pharm, Pharm.D), medical (MBBS, BDS), and life sciences graduates into job-ready clinical safety professionals.
+      </p>
+
+      <div class="grid-3">
+        <div class="feature-card">
+          <span class="badge badge-slate">PILLAR 01</span>
+          <h3>Authoritative Case Vault</h3>
+          <p>Curated clinical scenarios across Oncology, Cardiology, Neurology, and Immunology structured around ICH E2B(R3) specifications with strict version control in SQLite.</p>
+        </div>
+        <div class="feature-card">
+          <span class="badge badge-blue">PILLAR 02</span>
+          <h3>Air-Gapped Security</h3>
+          <p>Ground-truth reference keys, expected MedDRA Preferred Terms, and grading rubrics are physically isolated in restricted tables, masked from students until faculty approval.</p>
+        </div>
+        <div class="feature-card">
+          <span class="badge badge-emerald">PILLAR 03</span>
+          <h3>4-Pillar AI Assessment</h3>
+          <p>Every submission is instantly benchmarked across MedDRA accuracy (25%), Seriousness concordance (25%), Causality logic (25%), and CIOMS-I narrative quality (25%).</p>
+        </div>
+      </div>
+
+      <div class="callout callout-emerald">
+        <div class="callout-title">Authoritative Single Source of Truth</div>
+        The platform's internal SQLite database (configured with WAL mode and foreign key constraints) serves as the authoritative system of record. External Google Workspace apps (Docs, Sheets, Slides, Calendar) integrate smoothly for reporting and collaboration.
+      </div>
+    </section>
+
+    <!-- SECTION 2: THE STUDENT FIELD GUIDE -->
+    <section id="student" class="section-card student-theme">
+      <div class="section-header">
+        <div class="eyebrow" style="color: var(--arzon-blue);">PERSONA 01 · OPERATIONAL FIELD GUIDE</div>
+        <h2>The Student / PV Trainee Guide</h2>
+        <p>Step-by-step instructions for B.Pharm, M.Pharm, Pharm.D, and MBBS graduates preparing for careers in Pharmacovigilance.</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="feature-card">
+          <span class="badge badge-blue">INTERACTION 01</span>
+          <h3>My Assignments Hub (`assignments`)</h3>
+          <p>Your central flight deck for active cohort coursework, assigned regulatory deadlines, and mentor feedback.</p>
+          <ul class="checklist">
+            <li><strong>Filter Pills</strong>: Toggle between <code>All</code>, <code>Assigned</code>, <code>In Progress</code>, <code>Submitted</code>, <code>Completed</code>, and live <code>Overdue</code> tasks.</li>
+            <li><strong>Assignment Cards</strong>: Displays Case Code (e.g. <code>ARZ-PV-2026-001</code>), therapeutic specialty, difficulty tier, and faculty clinical instructions.</li>
+            <li><strong>Overdue Warning Indicator</strong>: Flags urgent deadlines requiring immediate regulatory triage.</li>
+          </ul>
+          <div class="button-ledger">
+            <div class="button-ledger-header">Interface Buttons & CTAs</div>
+            <div class="button-item">
+              <div class="button-name"><span class="button-tag button-tag-cta">PRIMARY</span> [ Start Working → ] / [ Resume Case → ]</div>
+              <div class="button-desc">Loads the assigned ICSR case directly into the PV Workbench with prior drafts pre-populated.</div>
+              <div class="button-output">Produces: Live editing session with continuous SQLite auto-save.</div>
+            </div>
+            <div class="button-item">
+              <div class="button-name"><span class="button-tag button-tag-util">TERTIARY</span> [ View Submitted Record ]</div>
+              <div class="button-desc">Opens the submitted case in read-only audit mode showing submission timestamp and pending faculty status.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <span class="badge badge-blue">INTERACTION 02</span>
+          <h3>Intake Dossier Tab (`workbench`)</h3>
+          <p>Comprehensive patient signal analysis modeled after Argus Safety Case Intake.</p>
+          <ul class="checklist">
+            <li><strong>Patient Demographics</strong>: Initials, Age, Gender, Weight (kg), Height (cm), Smoking history, and Concurrent Medical History.</li>
+            <li><strong>Suspect & Concomitant Drug Table</strong>: INN Active Ingredient, Trade Name, Dosage, Route, Frequency, Therapy Start/Stop dates, Indication, and Dechallenge Action.</li>
+            <li><strong>Diagnostic Investigations Table</strong>: Baseline vs. Post-reaction laboratory values with reference ranges (e.g. Troponin, ALT/AST, eGFR, Platelets).</li>
+            <li><strong>Verbatim Reporter Statement</strong>: Raw healthcare professional or consumer narrative statement.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="feature-card">
+          <span class="badge badge-blue">INTERACTION 03</span>
+          <h3>MedDRA Coding Console (`workbench`)</h3>
+          <p>Extract clinical adverse events from verbatim statements and code them into the MedDRA 26.0 regulatory hierarchy.</p>
+          <ul class="checklist">
+            <li><strong>Verbatim Event Field</strong>: Highlighted clinical manifestation extracted from the reporter's text.</li>
+            <li><strong>Preferred Term (PT) Input</strong>: Search and map to the specific clinical term (e.g. <code>Toxic epidermal necrolysis</code>, <code>Immune-mediated colitis</code>).</li>
+            <li><strong>System Organ Class (SOC) Dropdown</strong>: Select the primary anatomical/pathological category (e.g. <code>Skin and subcutaneous tissue disorders</code>).</li>
+            <li><strong>Clinical Coding Justification</strong>: Document why this term was chosen over close differential diagnoses.</li>
+          </ul>
+          <div class="button-ledger">
+            <div class="button-ledger-header">Interface Buttons & CTAs</div>
+            <div class="button-item">
+              <div class="button-name"><span class="button-tag button-tag-action">ACTION</span> [ + Add Coded Event ]</div>
+              <div class="button-desc">Commits the coded PT, SOC, and rationale into the student's active case submission record.</div>
+              <div class="button-output">Produces: Formatted MedDRA coding entry with delete/edit chips.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <span class="badge badge-blue">INTERACTION 04</span>
+          <h3>ICH E2A Seriousness Matrix (`workbench`)</h3>
+          <p>Apply global regulatory seriousness criteria that dictate 7-day or 15-day expedited reporting to health authorities.</p>
+          <ul class="checklist">
+            <li><strong>6 Regulatory Checkboxes</strong>:
+              1. <em>Results in Death</em><br>
+              2. <em>Is Life-Threatening</em><br>
+              3. <em>Requires Inpatient Hospitalization or Prolongation</em><br>
+              4. <em>Results in Persistent or Significant Disability/Incapacity</em><br>
+              5. <em>Is a Congenital Anomaly or Birth Defect</em><br>
+              6. <em>Other Medically Important Event (IME)</em>
+            </li>
+            <li><strong>Real-Time Seriousness Flag</strong>: Automatically computes if the ICSR is legally Serious or Non-Serious.</li>
+            <li><strong>Regulatory Justification Box</strong>: Mandatory text area explaining specific hospitalization dates or life-saving interventions.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="feature-card">
+          <span class="badge badge-blue">INTERACTION 05</span>
+          <h3>Causality & Naranjo Algorithm (`workbench`)</h3>
+          <p>Dual-methodology pharmacological attribution modeling.</p>
+          <ul class="checklist">
+            <li><strong>WHO-UMC Selector</strong>: Categorize relationship into <code>Certain</code>, <code>Probable</code>, <code>Possible</code>, <code>Unlikely</code>, <code>Conditional</code>, or <code>Unassessable</code>.</li>
+            <li><strong>Interactive 10-Question Naranjo Calculator</strong>:
+              Radio button selection for all 10 clinical pharmacology questions (prior reports, temporal sequence, dechallenge, rechallenge, alternative causes, placebo reaction, drug detection in body, dose-response, prior adverse history, objective confirmation).
+            </li>
+            <li><strong>Automatic Score Tally</strong>: Computes total score instantly:
+              <code>≥ 9 Definite</code> · <code>5–8 Probable</code> · <code>1–4 Possible</code> · <code>≤ 0 Doubtful</code>.
+            </li>
+          </ul>
+        </div>
+
+        <div class="feature-card">
+          <span class="badge badge-blue">INTERACTION 06</span>
+          <h3>CIOMS-I Narrative & Submission (`workbench`)</h3>
+          <p>Chronological medical narrative composer complying with CIOMS-I and ICH E2B(R3) standards.</p>
+          <ul class="checklist">
+            <li><strong>E2B Section Starter Chips</strong>: Instant insertion of standard phrasing (<code>+ Demographics</code>, <code>+ Suspect Drug Admin</code>, <code>+ Reaction Onset</code>, <code>+ Dechallenge Action</code>, <code>+ Final Outcome</code>).</li>
+            <li><strong>Live Counter & Badge</strong>: Enforces industry standard word count (Minimum 40 words, ideal 90–150 words).</li>
+            <li><strong>Pre-Flight Audit Checklist</strong>: Visual verification showing completion of demographics, MedDRA, Seriousness, Causality, and Narrative.</li>
+          </ul>
+          <div class="button-ledger">
+            <div class="button-ledger-header">Interface Buttons & CTAs</div>
+            <div class="button-item">
+              <div class="button-name"><span class="button-tag button-tag-util">UTILITY</span> [ Save Working Draft ]</div>
+              <div class="button-desc">Saves all fields to SQLite and records last saved timestamp. Student can exit and resume anytime.</div>
+            </div>
+            <div class="button-item">
+              <div class="button-name"><span class="button-tag button-tag-cta">PRIMARY</span> [ Lock & Submit ICSR Case ]</div>
+              <div class="button-desc">Freezes student editing, triggers 4-pillar provisional AI assessment, and routes case to faculty queue.</div>
+              <div class="button-output">Produces: Immutable submission record, provisional AI audit, candidate proof-of-work.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-warning">
+        <div class="callout-title">Answer Security & Air-Gapping Rule</div>
+        Upon submission, cases remain in <code>provisional</code> status. Gold-standard MedDRA terms, expected seriousness criteria, and scoring rubrics are masked from students until a Faculty Mentor audits and approves the submission.
+      </div>
+    </section>
+
+    <!-- SECTION 3: THE FACULTY MENTOR MANUAL -->
+    <section id="mentor" class="section-card mentor-theme">
+      <div class="section-header">
+        <div class="eyebrow" style="color: var(--arzon-emerald);">PERSONA 02 · FACULTY MENTOR MANUAL</div>
+        <h2>The Faculty Mentor Guide</h2>
+        <p>Instructions for Medical Reviewers, PV Team Leads, and Clinical Faculty guiding cohorts to professional role readiness.</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="feature-card">
+          <span class="badge badge-emerald">CONSOLE 01</span>
+          <h3>Submission Triage & Queue (`reviews`)</h3>
+          <p>Manage and filter pending cohort submissions with high-volume triage controls.</p>
+          <ul class="checklist">
+            <li><strong>Real-Time Search Bar</strong>: Instant filtering by student name, student email, or case number.</li>
+            <li><strong>Score Triage Filter</strong>:
+              Toggle between <code>All Submissions</code>, <code>High Performers (≥ 85%)</code>, and <code>Needs Attention (&lt; 85%)</code> to prioritize students requiring intervention.
+            </li>
+            <li><strong>Submission Card Selector</strong>: Visual indicator of active student, submission date, and case difficulty.</li>
+          </ul>
+          <div class="button-ledger">
+            <div class="button-ledger-header">Interface Buttons & CTAs</div>
+            <div class="button-item">
+              <div class="button-name"><span class="button-tag button-tag-action">AI ASSIST</span> [ Run / Re-Evaluate AI Assessment ]</div>
+              <div class="button-desc">Triggers automated 4-pillar provisional scoring engine if a submission lacks an evaluation record.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <span class="badge badge-emerald">CONSOLE 02</span>
+          <h3>Three-Column Comparative Audit (`reviews`)</h3>
+          <p>The definitive side-by-side evaluation studio matching industry quality assurance audits.</p>
+          <ul class="checklist">
+            <li><strong>Column 1 · Student Submission</strong>: Exact student entries for MedDRA PT/SOC, Seriousness rationale, WHO-UMC category, Naranjo answers, and full CIOMS-I narrative.</li>
+            <li><strong>Column 2 · Gold-Standard Ground Truth</strong>: Authoritative clinical benchmark from SQLite: Expected MedDRA terms, true regulatory seriousness criteria, benchmark causality score, and narrative model answer.</li>
+            <li><strong>Column 3 · AI Scorecard & Calibration Console</strong>: Itemized pillar scores, clinical strengths, identified omissions, and score calibration slider.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 4-Pillar Breakdown -->
+      <div class="feature-card" style="margin-bottom: 22px;">
+        <span class="badge badge-emerald">EVALUATION RUBRIC</span>
+        <h3>The 4-Pillar Assessment Framework (100 Points Total)</h3>
+        <p style="margin-bottom: 14px;">Every submission is scored systematically across four equal clinical pillars:</p>
+        <div class="grid-2">
+          <div style="background: white; padding: 14px; border-radius: 6px; border: 1px solid var(--arzon-border);">
+            <strong style="color: var(--arzon-navy); font-family: 'JetBrains Mono', monospace;">1. MedDRA Coding Accuracy (25 Pts)</strong>
+            <p style="font-size: 12px; margin-top: 4px; color: var(--arzon-body);">
+              Evaluates exact match against expected Preferred Term (PT) and Primary System Organ Class (SOC). Deducts points for imprecise terms or coding symptoms rather than definitive syndromes.
+            </p>
+          </div>
+          <div style="background: white; padding: 14px; border-radius: 6px; border: 1px solid var(--arzon-border);">
+            <strong style="color: var(--arzon-navy); font-family: 'JetBrains Mono', monospace;">2. Seriousness Determination (25 Pts)</strong>
+            <p style="font-size: 12px; margin-top: 4px; color: var(--arzon-body);">
+              Benchmarks checked criteria against clinical facts (e.g. hospitalization dates, life-threatening interventions). Validates regulatory justification quality.
+            </p>
+          </div>
+          <div style="background: white; padding: 14px; border-radius: 6px; border: 1px solid var(--arzon-border);">
+            <strong style="color: var(--arzon-navy); font-family: 'JetBrains Mono', monospace;">3. Causality Assessment (25 Pts)</strong>
+            <p style="font-size: 12px; margin-top: 4px; color: var(--arzon-body);">
+              Evaluates concordance with expected WHO-UMC category and verifies precision of the 10-Question Naranjo score tally and dechallenge logic.
+            </p>
+          </div>
+          <div style="background: white; padding: 14px; border-radius: 6px; border: 1px solid var(--arzon-border);">
+            <strong style="color: var(--arzon-navy); font-family: 'JetBrains Mono', monospace;">4. CIOMS-I Narrative Quality (25 Pts)</strong>
+            <p style="font-size: 12px; margin-top: 4px; color: var(--arzon-body);">
+              Audits chronological sequence, patient demographics, reaction onset latency, laboratory investigations, corrective action taken, and word count compliance (≥ 40 words).
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="feature-card">
+          <span class="badge badge-emerald">DECISION 01</span>
+          <h3>Interactive Score Calibration (`reviews`)</h3>
+          <p>Human-in-the-loop clinical calibration of student performance.</p>
+          <ul class="checklist">
+            <li><strong>Interactive Score Slider</strong>: Adjust score dynamically between <code>0%</code> and <code>100%</code>.</li>
+            <li><strong>Clinical Nuance Override</strong>: Reward sophisticated differential diagnoses or penalize critical safety omissions.</li>
+            <li><strong>Pedagogical Mentor Notes</strong>: Author specific, actionable clinical feedback that appears directly on the student's unlocked scorecard.</li>
+          </ul>
+        </div>
+
+        <div class="feature-card">
+          <span class="badge badge-emerald">DECISION 02</span>
+          <h3>Final Disposition Actions (`reviews`)</h3>
+          <p>Two authoritative actions to conclude the review workflow:</p>
+          <div class="button-ledger">
+            <div class="button-ledger-header">Disposition Buttons</div>
+            <div class="button-item">
+              <div class="button-name"><span class="button-tag button-tag-cta" style="background: #059669;">APPROVE</span> [ Approve Work & Release Score ]</div>
+              <div class="button-desc">Commits final calibrated score and mentor feedback to SQLite. Unlocks complete score breakdown and answer keys to the student.</div>
+              <div class="button-output">Produces: Final grade record, student mastery unlock, audit log record.</div>
+            </div>
+            <div class="button-item">
+              <div class="button-name"><span class="button-tag button-tag-cta" style="background: #D97706;">REVISE</span> [ Request Revision ]</div>
+              <div class="button-desc">Resets the submission to editable draft status and sends it back to the student's workbench with revision instructions.</div>
+              <div class="button-output">Produces: Assignment state reset to in_progress, revision alert to student.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: THE ARZON ADMIN COMMAND MANUAL -->
+    <section id="admin" class="section-card admin-theme">
+      <div class="section-header">
+        <div class="eyebrow" style="color: var(--arzon-purple);">PERSONA 03 · EXECUTIVE COMMAND MANUAL</div>
+        <h2>The Arzon Admin Manual</h2>
+        <p>Operational control plane for Program Directors, Cohort Managers, and System Administrators.</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="feature-card">
+          <span class="badge badge-purple">MODULE 08</span>
+          <h3>Executive Command (`dashboard`)</h3>
+          <p>6 Real-Time Operational KPIs: Total Cases, Active Cohorts, Completion Rate %, Overdue Work, Pending Faculty Reviews, Average Cohort Score. Tamper-evident 21 CFR Part 11 audit ledger.</p>
+        </div>
+
+        <div class="feature-card">
+          <span class="badge badge-purple">MODULE 01</span>
+          <h3>AI Case Generator (`generator`)</h3>
+          <p>Synthesizes clinically accurate ICSR scenarios using Google Gemini 2.5 API with strict JSON schema validation, or deterministic pharmacology engine fallback.</p>
+        </div>
+
+        <div class="feature-card">
+          <span class="badge badge-purple">MODULE 02</span>
+          <h3>PDF Case Importer (`importer`)</h3>
+          <p>Upload CIOMS-I forms, medical journals, or spontaneous adverse event PDFs. Automatic server-side clinical extraction with SHA-256 hash tracking.</p>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <div class="feature-card">
+          <span class="badge badge-purple">MODULE 03</span>
+          <h3>Case Vault Management (`cases`)</h3>
+          <p>Curate approved scenarios across Oncology, Cardiology, Neurology, and Immunology. Version control (`case_versions`) and cascade archival deletion.</p>
+        </div>
+
+        <div class="feature-card">
+          <span class="badge badge-purple">MODULE 04</span>
+          <h3>Cohort Allocator (`assignments`)</h3>
+          <p>Assign cases individually or across cohorts with calendar-synchronized deadlines, training milestones, and auto-provisioned practice accounts.</p>
+        </div>
+
+        <div class="feature-card">
+          <span class="badge badge-purple">MODULE 09</span>
+          <h3>Google Workspace Hub (`workspace`)</h3>
+          <p>Synchronize student rosters with Google Sheets, case briefs with Docs, slide decks with Google Slides, and milestones with Google Calendar.</p>
+        </div>
+      </div>
+
+      <!-- Admin Button Ledger -->
+      <div class="button-ledger" style="margin-top: 20px;">
+        <div class="button-ledger-header">Arzon Admin Executive Buttons & Capabilities</div>
+        <div class="button-item">
+          <div class="button-name"><span class="button-tag button-tag-cta">GENERATOR</span> [ Generate Synthetic ICSR Case(s) ]</div>
+          <div class="button-desc">Launches multi-therapeutic scenario generation across selected difficulty and clinical parameters. Stages cases in split-screen review.</div>
+          <div class="button-output">Produces: Clinical dossier, Gold-Standard key, and staging record.</div>
+        </div>
+        <div class="button-item">
+          <div class="button-name"><span class="button-tag button-tag-cta">IMPORTER</span> [ Upload & Extract Clinical Entities ]</div>
+          <div class="button-desc">Processes uploaded PDF files, extracts raw text, and maps patient initials, suspect drugs, adverse events, and lab findings.</div>
+          <div class="button-output">Produces: Human-in-the-loop split-screen verification interface.</div>
+        </div>
+        <div class="button-item">
+          <div class="button-name"><span class="button-tag button-tag-cta">ALLOCATOR</span> [ + Create Cohort Assignment ]</div>
+          <div class="button-desc">Opens assignment modal to select case, select multiple students, set regulatory deadlines, and input clinical instructions.</div>
+          <div class="button-output">Produces: Assignment records in SQLite and Google Calendar event URLs.</div>
+        </div>
+        <div class="button-item">
+          <div class="button-name"><span class="button-tag button-tag-action">PURGE</span> [ Delete / Cascade Purge Case ]</div>
+          <div class="button-desc">Permanently purges a case scenario from SQLite, cascading to remove associated submissions, assessments, and reviews cleanly.</div>
+          <div class="button-output">Produces: Cryptographic audit log entry in audit_logs table.</div>
+        </div>
+        <div class="button-item">
+          <div class="button-name"><span class="button-tag button-tag-util">WORKSPACE</span> [ Export Full Gradebook to CSV/Sheets ]</div>
+          <div class="button-desc">Downloads a live CSV snapshot of student scores, completion status, and cohort analytics.</div>
+        </div>
+        <div class="button-item">
+          <div class="button-name"><span class="button-tag button-tag-util">WORKSPACE</span> [ Generate Executive Case Brief (Docs) ]</div>
+          <div class="button-desc">Creates a formatted HTML/Markdown brief for executive presentation or institutional accreditation.</div>
+        </div>
+        <div class="button-item">
+          <div class="button-name"><span class="button-tag button-tag-util">WORKSPACE</span> [ Generate 5-Slide Presentation Deck (Slides) ]</div>
+          <div class="button-desc">Generates a structured 5-slide case conference presentation outline for Google Slides.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: FACE-BY-FACE BUTTON & FEATURE CATALOG -->
+    <section id="buttons" class="section-card catalog-theme">
+      <div class="section-header">
+        <div class="eyebrow" style="color: var(--arzon-gold);">COMPLETE SYSTEM DIRECTORY</div>
+        <h2>Face-by-Face Interface & Button Catalog</h2>
+        <p>Comprehensive reference detailing every screen, button, input field, and resulting output across the entire platform.</p>
+      </div>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th style="width: 18%;">Interface / Face</th>
+            <th style="width: 22%;">Button / Feature</th>
+            <th style="width: 32%;">Operational Behavior & Input</th>
+            <th style="width: 28%;">What It Produces</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Global Header -->
+          <tr>
+            <td><strong>Global Header</strong><br><span class="role-badge" style="background: #F1F5F9; color: #334155;">All Users</span></td>
+            <td><code>Switch Role</code></td>
+            <td>Opens modal to hot-switch between Student, Mentor, and Admin roles or switch to specific student accounts.</td>
+            <td>Instant persona transition with role-isolated navigation update.</td>
+          </tr>
+          <tr>
+            <td><strong>Global Header</strong><br><span class="role-badge" style="background: #F1F5F9; color: #334155;">All Users</span></td>
+            <td><code>Security / Key Icon</code></td>
+            <td>Opens mandatory password rotation modal enforcing length, uppercase, lowercase, number, and symbol policies.</td>
+            <td>Rotates password in SQLite; issues fresh HMAC-SHA256 JWT token.</td>
+          </tr>
+          <tr>
+            <td><strong>Global Header</strong><br><span class="role-badge" style="background: #F1F5F9; color: #334155;">All Users</span></td>
+            <td><code>Brochure & Guide</code></td>
+            <td>Opens the official printable Tri-Persona System Operations Manual in a new tab.</td>
+            <td>Self-contained HTML operations guide with print CSS and download links.</td>
+          </tr>
+
+          <!-- Student Workbench -->
+          <tr>
+            <td><strong>PV Workbench</strong><br><span class="role-badge" style="background: #EFF6FF; color: #1D4ED8;">Student</span></td>
+            <td><code>Case Selector Dropdown</code></td>
+            <td>Allows student to select an assigned case or practice case from the library.</td>
+            <td>Loads patient demographics, suspect drugs, labs, and previous drafts.</td>
+          </tr>
+          <tr>
+            <td><strong>PV Workbench</strong><br><span class="role-badge" style="background: #EFF6FF; color: #1D4ED8;">Student</span></td>
+            <td><code>+ Add Coded Event</code></td>
+            <td>Inputs Verbatim term, maps Preferred Term (PT) and System Organ Class (SOC) with clinical rationale.</td>
+            <td>Appends coded MedDRA row to student's ICSR submission payload.</td>
+          </tr>
+          <tr>
+            <td><strong>PV Workbench</strong><br><span class="role-badge" style="background: #EFF6FF; color: #1D4ED8;">Student</span></td>
+            <td><code>Seriousness Checkboxes</code></td>
+            <td>Checks Death, Life-Threatening, Hospitalization, Disability, Congenital Anomaly, or IME with rationale.</td>
+            <td>Calculates ICSR seriousness flag (Serious / Non-Serious) and stores rationale.</td>
+          </tr>
+          <tr>
+            <td><strong>PV Workbench</strong><br><span class="role-badge" style="background: #EFF6FF; color: #1D4ED8;">Student</span></td>
+            <td><code>Naranjo Radio Buttons</code></td>
+            <td>10 interactive questions scoring dechallenge, rechallenge, alternative causes, and objective findings.</td>
+            <td>Real-time calculated ADR score (Definite, Probable, Possible, Doubtful).</td>
+          </tr>
+          <tr>
+            <td><strong>PV Workbench</strong><br><span class="role-badge" style="background: #EFF6FF; color: #1D4ED8;">Student</span></td>
+            <td><code>Narrative Starter Chips</code></td>
+            <td>Chips for Demographics, Drug Admin, Event Onset, Dechallenge Action, and Final Outcome.</td>
+            <td>Injects standardized chronological sentence starters into the narrative composer.</td>
+          </tr>
+          <tr>
+            <td><strong>PV Workbench</strong><br><span class="role-badge" style="background: #EFF6FF; color: #1D4ED8;">Student</span></td>
+            <td><code>Save Working Draft</code></td>
+            <td>Saves all working inputs to the SQLite database without locking the submission.</td>
+            <td>Updates <code>submissions</code> table; displays last saved timestamp.</td>
+          </tr>
+          <tr>
+            <td><strong>PV Workbench</strong><br><span class="role-badge" style="background: #EFF6FF; color: #1D4ED8;">Student</span></td>
+            <td><code>Lock & Submit ICSR Case</code></td>
+            <td>Runs 5-point validation check, locks case, triggers 4-pillar provisional assessment.</td>
+            <td>Freezes student editing; stages case in Mentor Review Studio queue.</td>
+          </tr>
+
+          <!-- Mentor Review -->
+          <tr>
+            <td><strong>Review Studio</strong><br><span class="role-badge" style="background: #ECFDF5; color: #047857;">Mentor</span></td>
+            <td><code>Triage Score Filter</code></td>
+            <td>Filters pending queue by All, High Performers (≥ 85%), or Needs Attention (&lt; 85%).</td>
+            <td>Instant re-indexing of review cards for prioritized faculty intervention.</td>
+          </tr>
+          <tr>
+            <td><strong>Review Studio</strong><br><span class="role-badge" style="background: #ECFDF5; color: #047857;">Mentor</span></td>
+            <td><code>Calibrate Score Slider</code></td>
+            <td>Slider adjusting total submission score from 0% to 100% based on clinical nuance.</td>
+            <td>Overrides provisional AI score with faculty-authorized grade.</td>
+          </tr>
+          <tr>
+            <td><strong>Review Studio</strong><br><span class="role-badge" style="background: #ECFDF5; color: #047857;">Mentor</span></td>
+            <td><code>Approve Work</code></td>
+            <td>Finalizes review, records mentor coaching comments, and releases scorecard to student.</td>
+            <td>Sets submission status to <code>completed</code>; unmasks answers to student.</td>
+          </tr>
+          <tr>
+            <td><strong>Review Studio</strong><br><span class="role-badge" style="background: #ECFDF5; color: #047857;">Mentor</span></td>
+            <td><code>Request Revision</code></td>
+            <td>Returns the case to the student's workbench with specific faculty corrective feedback.</td>
+            <td>Resets status to <code>draft</code>; re-enables editing in student workbench.</td>
+          </tr>
+
+          <!-- Admin Generator -->
+          <tr>
+            <td><strong>AI Generator</strong><br><span class="role-badge" style="background: #FAF5FF; color: #6D28D9;">Admin</span></td>
+            <td><code>Generate Synthetic ICSR</code></td>
+            <td>Selects therapeutic area, difficulty, reporter type, and generates complete ICSR.</td>
+            <td>Creates staged scenario with clinical dossier and reference key.</td>
+          </tr>
+          <tr>
+            <td><strong>AI Generator</strong><br><span class="role-badge" style="background: #FAF5FF; color: #6D28D9;">Admin</span></td>
+            <td><code>Publish to Case Vault</code></td>
+            <td>Approves staged synthetic case and publishes it into the official Case Library.</td>
+            <td>Inserts into <code>cases</code> and <code>reference_keys</code> in SQLite.</td>
+          </tr>
+
+          <!-- Admin Importer -->
+          <tr>
+            <td><strong>PDF Importer</strong><br><span class="role-badge" style="background: #FAF5FF; color: #6D28D9;">Admin</span></td>
+            <td><code>Upload & Extract</code></td>
+            <td>Uploads PDF file, runs text extraction and clinical entity regex/LLM parser.</td>
+            <td>Extracts patient demographics, suspect drugs, adverse events, and labs.</td>
+          </tr>
+          <tr>
+            <td><strong>PDF Importer</strong><br><span class="role-badge" style="background: #FAF5FF; color: #6D28D9;">Admin</span></td>
+            <td><code>Save Extracted Case</code></td>
+            <td>Saves verified extracted fields into the Case Vault after admin review.</td>
+            <td>Publishes verified scenario to SQLite with SHA-256 PDF source tracking.</td>
+          </tr>
+
+          <!-- Admin Allocator -->
+          <tr>
+            <td><strong>Cohort Allocator</strong><br><span class="role-badge" style="background: #FAF5FF; color: #6D28D9;">Admin</span></td>
+            <td><code>+ Create Assignment</code></td>
+            <td>Assigns case scenario to individual students or entire cohorts with deadline.</td>
+            <td>Creates records in <code>assignments</code> table; generates calendar sync links.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- SECTION 6: ROLE PERMISSIONS MATRIX & DELIVERABLES -->
+    <section id="matrix" class="section-card">
+      <div class="section-header">
+        <div class="eyebrow" style="color: var(--arzon-slate);">AUTHORIZATION & OUTPUTS</div>
+        <h2>Tri-Persona Responsibilities Matrix & Deliverables</h2>
+        <p>Summary of data visibility, administrative privileges, and end-state deliverables across the platform.</p>
+      </div>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Platform Capability</th>
+            <th>Student Role</th>
+            <th>Mentor Role</th>
+            <th>Arzon Admin Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Browse Case Library</strong></td>
+            <td><span class="role-badge" style="background: #EFF6FF; color: #1D4ED8;">Approved Only</span></td>
+            <td><span class="role-badge" style="background: #ECFDF5; color: #047857;">Full Dossier + Keys</span></td>
+            <td><span class="role-badge" style="background: #FAF5FF; color: #6D28D9;">Full Dossier + Tools</span></td>
+          </tr>
+          <tr>
+            <td><strong>Ground-Truth Reference Keys</strong></td>
+            <td><span class="role-badge" style="background: #FEF2F2; color: #B91C1C;">Air-Gapped Masked</span></td>
+            <td><span class="role-badge" style="background: #ECFDF5; color: #047857;">Unmasked</span></td>
+            <td><span class="role-badge" style="background: #FAF5FF; color: #6D28D9;">Editable & Curated</span></td>
+          </tr>
+          <tr>
+            <td><strong>PV Workbench ICSR Processing</strong></td>
+            <td><span class="role-badge" style="background: #EFF6FF; color: #1D4ED8;">Active Submissions</span></td>
+            <td><span class="role-badge" style="background: #F1F5F9; color: #475569;">Faculty Preview Mode</span></td>
+            <td><span class="role-badge" style="background: #F1F5F9; color: #475569;">Admin Preview Mode</span></td>
+          </tr>
+          <tr>
+            <td><strong>Provisional AI Score Visibility</strong></td>
+            <td><span class="role-badge" style="background: #FEF2F2; color: #B91C1C;">Masked until Review</span></td>
+            <td><span class="role-badge" style="background: #ECFDF5; color: #047857;">Immediate Visibility</span></td>
+            <td><span class="role-badge" style="background: #FAF5FF; color: #6D28D9;">Full Visibility</span></td>
+          </tr>
+          <tr>
+            <td><strong>Calibrate Scores & Sign-Off</strong></td>
+            <td><span class="role-badge" style="background: #FEF2F2; color: #B91C1C;">Prohibited</span></td>
+            <td><span class="role-badge" style="background: #ECFDF5; color: #047857;">Authorized Reviewer</span></td>
+            <td><span class="role-badge" style="background: #FAF5FF; color: #6D28D9;">Authorized Override</span></td>
+          </tr>
+          <tr>
+            <td><strong>Generate Synthetic Cases (Gemini/Engine)</strong></td>
+            <td><span class="role-badge" style="background: #FEF2F2; color: #B91C1C;">Prohibited</span></td>
+            <td><span class="role-badge" style="background: #FEF2F2; color: #B91C1C;">Prohibited</span></td>
+            <td><span class="role-badge" style="background: #FAF5FF; color: #6D28D9;">Full Pipeline Access</span></td>
+          </tr>
+          <tr>
+            <td><strong>Import & Parse Clinical PDFs</strong></td>
+            <td><span class="role-badge" style="background: #FEF2F2; color: #B91C1C;">Prohibited</span></td>
+            <td><span class="role-badge" style="background: #FEF2F2; color: #B91C1C;">Prohibited</span></td>
+            <td><span class="role-badge" style="background: #FAF5FF; color: #6D28D9;">Full Pipeline Access</span></td>
+          </tr>
+          <tr>
+            <td><strong>Delete / Purge Case Vault Records</strong></td>
+            <td><span class="role-badge" style="background: #FEF2F2; color: #B91C1C;">Prohibited</span></td>
+            <td><span class="role-badge" style="background: #FEF2F2; color: #B91C1C;">Prohibited</span></td>
+            <td><span class="role-badge" style="background: #FAF5FF; color: #6D28D9;">Cascade Deletion</span></td>
+          </tr>
+          <tr>
+            <td><strong>Google Workspace Export</strong></td>
+            <td><span class="role-badge" style="background: #FEF2F2; color: #B91C1C;">Prohibited</span></td>
+            <td><span class="role-badge" style="background: #ECFDF5; color: #047857;">Teaching Deck Outlines</span></td>
+            <td><span class="role-badge" style="background: #FAF5FF; color: #6D28D9;">Docs, Sheets, Slides, Cal</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Tangible Outputs Summary -->
+      <div style="margin-top: 28px;">
+        <h3 style="font-family: 'Newsreader', Georgia, serif; font-size: 20px; font-weight: 700; color: var(--arzon-ink); margin-bottom: 12px;">
+          What Each Interface Can Produce (Tangible Artifacts)
+        </h3>
+        <div class="grid-3">
+          <div class="feature-card">
+            <span class="badge badge-blue">STUDENT OUTPUTS</span>
+            <p style="font-size: 12.5px; line-height: 1.6;">
+              <strong>1. Compliant ICSR Safety Record</strong>: Locked regulatory dossier formatted to ICH E2B(R3).<br>
+              <strong>2. Verified MedDRA Hierarchy Mapping</strong>: LLT, PT, and SOC associations.<br>
+              <strong>3. Naranjo & Causality Audit</strong>: Algorithmic ADR attribution proof.<br>
+              <strong>4. Career Portfolio Evidence</strong>: Candidate proof-of-work showcasing genuine Argus-level readiness for CRO recruiters.
+            </p>
+          </div>
+          <div class="feature-card">
+            <span class="badge badge-emerald">MENTOR OUTPUTS</span>
+            <p style="font-size: 12.5px; line-height: 1.6;">
+              <strong>1. Calibrated Student Gradebooks</strong>: Certified grades with qualitative coaching feedback.<br>
+              <strong>2. Unlocked Student Scorecards</strong>: Detailed itemized breakdown of errors and strengths.<br>
+              <strong>3. Revision Directive Tickets</strong>: Structured rework instructions for developing trainees.<br>
+              <strong>4. Case Conference Teaching Decks</strong>: 5-slide clinical walkthrough presentations for Google Slides.
+            </p>
+          </div>
+          <div class="feature-card">
+            <span class="badge badge-purple">ADMIN OUTPUTS</span>
+            <p style="font-size: 12.5px; line-height: 1.6;">
+              <strong>1. Institutional Case Vault</strong>: Version-controlled repository of approved ICSR training cases.<br>
+              <strong>2. Google Sheets Gradebook</strong>: 1-click live export of cohort mastery distributions.<br>
+              <strong>3. Formatted Executive Briefs</strong>: Google Docs accreditation dossiers.<br>
+              <strong>4. 21 CFR Part 11 Audit Trail</strong>: Cryptographically tracked event log for compliance audits.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Note -->
+      <div style="margin-top: 36px; border-top: 1px solid var(--arzon-border); padding-top: 24px; text-align: center;">
+        <p style="font-family: 'Newsreader', Georgia, serif; font-size: 18px; font-weight: bold; color: var(--arzon-ink); margin-bottom: 4px;">
+          Arzon Global · Healthcare Career Intelligence
+        </p>
+        <p style="font-size: 11.5px; color: var(--arzon-muted); font-family: 'JetBrains Mono', monospace;">
+          ARZON PV CASE INTELLIGENCE v1.0 OPERATIONAL · DATABASE: SQLITE 3 WAL · ICH E2B(R3) & ICH E2A COMPLIANT
+        </p>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    // Client-side instant Markdown guide generator & downloader
+    function downloadMarkdownManual() {
+      const markdownContent = `# Arzon PV Case Intelligence · Tri-Persona Operations Manual & Button Directory
+**Executive Healthcare Career Intelligence & Role Readiness System**
+*Standards: ICH E2B(R3) · ICH E2A · CIOMS-I · WHO-UMC · MedDRA 26.0*
+
+## 1. Executive Overview
+Arzon PV Case Intelligence is an enterprise-grade pharmacovigilance simulation platform designed for Pharmacy (B.Pharm, M.Pharm, Pharm.D), Medicine (MBBS, BDS), and Life Sciences graduates to master real-world Individual Case Safety Report (ICSR) processing.
+
+It replicates the high-density operational workflows of Oracle Argus Safety and Veeva Vault Safety across:
+- ICH E2B(R3) Structured Intake Dossiers
+- MedDRA 26.0 Medical Coding (LLT, PT, SOC)
+- ICH E2A Seriousness Adjudication (6 Regulatory Criteria)
+- Dual Causality Assessment (WHO-UMC & 10-Question Naranjo Algorithm)
+- CIOMS-I Narrative Formulation (Minimum 40 words, ideal 90-150 words)
+- Automated 4-Pillar Provisional AI Evaluation (100 pts total)
+- Air-Gapped Reference Key Security
+- Google Workspace Integration (Docs, Sheets, Slides, Calendar)
+
+---
+
+## 2. Persona 01: Student Field Guide
+### Interfaces & Buttons
+- **My Assignments Hub (\`/assignments\`)**:
+  - Filter pills: All, Assigned, In Progress, Submitted, Completed, Overdue.
+  - Button \`[ Start Working -> ]\` / \`[ Resume Case -> ]\`: Loads case into PV Workbench with prior auto-saved drafts.
+- **PV Workbench (\`/workbench\`)**:
+  - Tab 1 Intake Dossier: Demographics, suspect/concomitant drug table, lab investigations, verbatim narrative.
+  - Tab 2 MedDRA Coding: Verbatim extract, PT selector, SOC dropdown, clinical rationale. Button \`[ + Add Coded Event ]\`.
+  - Tab 3 Seriousness Matrix: 6 regulatory checkboxes (Death, Life-threatening, Hospitalization, Disability, Congenital anomaly, IME) with mandatory justification.
+  - Tab 4 Causality: WHO-UMC dropdown, interactive 10-question Naranjo calculator with instant score tally (Definite, Probable, Possible, Doubtful).
+  - Tab 5 CIOMS-I Narrative: Quick starter chips, live word count, character count, minimum 40 words badge.
+  - Tab 6 Pre-Flight & Submit: 5-point checklist. Button \`[ Save Working Draft ]\` (saves to SQLite). Button \`[ Lock & Submit ICSR Case ]\` (locks case, triggers 4-pillar provisional assessment, stages in mentor queue).
+- **What It Produces**: Locked ICH E2B(R3) submission record, MedDRA mapping, Naranjo score, compliant narrative, and verified portfolio proof-of-work.
+
+---
+
+## 3. Persona 02: Faculty Mentor Manual
+### Interfaces & Buttons
+- **Review Studio (\`/reviews\`)**:
+  - Triage Search & Score Filter: Search student/case, toggle High Performers (>=85%) vs Needs Attention (<85%).
+  - Button \`[ Run AI Assessment ]\`: Recalculates provisional 4-pillar score if missing.
+  - 3-Column Comparative Studio:
+    - Col 1: Student Submission
+    - Col 2: Gold-Standard Ground Truth Answer Key (unmasked from SQLite)
+    - Col 3: AI Scorecard & Interactive Calibration Sliders (MedDRA 25pts, Seriousness 25pts, Causality 25pts, Narrative 25pts = 100pts total)
+  - Interactive Score Slider: 0 to 100 points for clinical nuance calibration.
+  - Button \`[ Approve Work & Release Score ]\`: Commits final score, unmasks answers to student.
+  - Button \`[ Request Revision ]\`: Bounces case back to student workbench with corrective guidance.
+- **Cohort Submissions (\`/assignments\`)**: Complete cohort gradebook and review status.
+- **Teaching Slide Decks (\`/workspace\`)**: 1-click generation of 5-slide Case Conference outlines for Google Slides.
+- **What It Produces**: Certified grades, released scorecards, revision instructions, teaching presentations.
+
+---
+
+## 4. Persona 03: Arzon Admin Command
+### Interfaces & Buttons
+- **Executive Command Dashboard (\`/dashboard\`)**:
+  - 6 Real-time KPIs: Total Cases, Active Cohorts, Completion Rate %, Overdue Work, Pending Reviews, Average Score.
+  - Tamper-evident 21 CFR Part 11 compliant audit ledger.
+- **AI Case Generator (\`/generator\`)**:
+  - Therapeutic area, difficulty, and complexity selectors.
+  - Button \`[ Generate Synthetic ICSR Case(s) ]\`: Calls Gemini LLM or deterministic pharmacology engine fallback.
+  - Split-screen verification; Button \`[ Publish to Case Vault ]\`.
+- **PDF Case Importer (\`/importer\`)**:
+  - Drag-and-drop PDF upload; Button \`[ Upload & Extract Clinical Entities ]\`.
+  - Human-in-the-loop verification pane; Button \`[ Save & Publish to Case Vault ]\`.
+- **Cohort Allocator (\`/assignments\`)**:
+  - Button \`[ + Create Cohort Assignment ]\`: Assigns case to student/cohort with deadline and instructions.
+- **Google Workspace Hub (\`/workspace\`)**:
+  - Google Sheets: Button \`[ Export Full Gradebook to CSV/Sheets ]\`.
+  - Google Docs: Button \`[ Generate Executive Case Brief ]\`.
+  - Google Slides: Button \`[ Generate 5-Slide Presentation Deck ]\`.
+  - Google Calendar: Button \`[ Add to Google Calendar URL ]\` and \`[ Download .ICS File ]\`.
+- **What It Produces**: Version-controlled simulation catalog, CSV gradebooks, Google Docs briefs, Google Slides decks, compliance audit logs.
+
+---
+*Generated by Arzon Global · Healthcare Career Intelligence Architecture*
+`;
+
+      const blob = new Blob([markdownContent], { type: 'text/markdown;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', 'Arzon_PV_Case_Intelligence_Tri_Persona_Guide.md');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }
+  </script>
+
+</body>
+</html>

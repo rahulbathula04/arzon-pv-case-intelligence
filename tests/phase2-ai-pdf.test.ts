@@ -1,10 +1,12 @@
 import { describe, it, expect, beforeAll } from 'vitest';
-import { db, initDatabase } from '../server/db/database.js';
+import { db, initDatabase, computeClinicalFingerprint } from '../server/db/database.js';
+import { seedDatabase } from '../server/db/seed.js';
 import { parseClinicalEntitiesFromText } from '../server/routes/importPdf.js';
 
 describe('Phase 2: PDF Import & AI Case Generation Engine', () => {
   beforeAll(() => {
     initDatabase();
+    seedDatabase();
   });
 
   it('correctly extracts structured clinical entities from case report text', () => {
@@ -37,13 +39,13 @@ describe('Phase 2: PDF Import & AI Case Generation Engine', () => {
 
     const insertCase = db.prepare(`
       INSERT INTO cases (
-        id, case_number, title, therapeutic_area, difficulty, source_type,
+        id, case_number, clinical_fingerprint, title, therapeutic_area, difficulty, source_type,
         is_fictional, fictional_disclaimer, status, active_version,
         patient_initials, patient_age, patient_gender, patient_weight_kg,
         medical_history, suspect_drugs, concomitant_drugs, adverse_events,
         lab_tests, verbatim_narrative, reporter_type, receipt_date
       ) VALUES (
-        ?, ?, ?, ?, ?, 'ai_generated',
+        ?, ?, ?, ?, ?, ?, 'ai_generated',
         1, 'CONTROLLED FICTIONAL TRAINING SCENARIO · NOT REAL PATIENT DATA', 'draft', 1,
         ?, ?, ?, ?,
         ?, ?, ?, ?,
@@ -51,8 +53,9 @@ describe('Phase 2: PDF Import & AI Case Generation Engine', () => {
       )
     `);
 
+    const fp = `test-fp-${Date.now()}`;
     insertCase.run(
-      caseId, caseNumber, 'DRESS Syndrome secondary to Carbamazepine', 'Neurology', 'Intermediate',
+      caseId, caseNumber, fp, 'DRESS Syndrome secondary to Carbamazepine', 'Neurology', 'Intermediate',
       'S.K.', 48, 'Male', 74.0, 'Focal epilepsy',
       JSON.stringify([{ name: 'Tegretol', inn: 'Carbamazepine', role: 'Suspect' }]),
       JSON.stringify([]),

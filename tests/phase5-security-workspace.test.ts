@@ -1,9 +1,11 @@
 import { describe, it, expect, beforeAll } from 'vitest';
 import { db, initDatabase } from '../server/db/database.js';
+import { seedDatabase } from '../server/db/seed.js';
 
 describe('Phase 5: Security Architecture & Google Workspace Integrations', () => {
   beforeAll(() => {
     initDatabase();
+    seedDatabase();
   });
 
   it('strictly ensures reference keys are isolated from student queries', () => {

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { 
   FileUp, CheckCircle, AlertTriangle, FileText, 
-  ArrowRight, ShieldCheck, Pill, Activity, Sparkles 
+  ArrowRight, ShieldCheck, Pill, Activity 
 } from 'lucide-react';
 
 interface PdfImporterPageProps {
@@ -10,7 +10,7 @@ interface PdfImporterPageProps {
 }
 
 export const PdfImporterPage: React.FC<PdfImporterPageProps> = ({ onCaseSaved }) => {
-  const { user } = useAuth();
+  const { user, getAuthHeaders } = useAuth();
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -54,8 +54,7 @@ export const PdfImporterPage: React.FC<PdfImporterPageProps> = ({ onCaseSaved })
       const formData = new FormData();
       formData.append('file', file);
 
-      const headers: Record<string, string> = {};
-      if (user?.id) headers['x-user-id'] = user.id;
+      const headers = getAuthHeaders();
 
       const res = await fetch('/api/import/pdf', {
         method: 'POST',
@@ -118,8 +117,10 @@ On 2026-06-29, the patient presented with spontaneous gross hematuria and extens
   const handleVerifyAndSave = async () => {
     try {
       setSaving(true);
-      const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-      if (user?.id) headers['x-user-id'] = user.id;
+      const headers = {
+        'Content-Type': 'application/json',
+        ...getAuthHeaders()
+      };
 
       const payload = {
         title,
@@ -221,27 +222,30 @@ On 2026-06-29, the patient presented with spontaneous gross hematuria and extens
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       
       {/* Header */}
-      <div className="border-b border-stone-200 pb-5">
-        <div className="flex items-center space-x-2 text-xs font-mono font-bold text-[#1B3F8B] uppercase tracking-widest mb-1">
+      <div className="border-b border-black/[0.06] pb-6">
+        <div className="flex items-center space-x-2 text-[11px] font-mono font-bold text-[#1B3F8B] uppercase tracking-widest mb-1.5">
+          <span className="inline-block w-2 h-2 rounded-full bg-blue-500/20 ring-4 ring-blue-500/10"></span>
           <span>MODULE 02 · SOURCE DOCUMENT INGESTION</span>
-          <span>·</span>
+          <span className="text-stone-300">/</span>
           <span>HUMAN-IN-THE-LOOP VERIFICATION</span>
         </div>
-        <h2 className="font-serif font-bold text-2xl sm:text-3xl text-stone-900 tracking-tight">
-          PDF Case Importer
+        <h2 className="font-sans font-bold text-2xl sm:text-3xl text-stone-900 tracking-tight">
+          Clinical Source Document Ingestion Engine
         </h2>
-        <p className="font-sans text-xs sm:text-sm text-stone-600 mt-1 max-w-2xl leading-relaxed">
+        <p className="font-sans text-xs sm:text-sm text-stone-600 mt-1.5 max-w-2xl leading-relaxed">
           Upload PDF case studies, CIOMS-I reports, or medical literature. The ingestion engine parses clinical entities and stages them for human administrative verification prior to publication.
         </p>
       </div>
 
       {/* Upload Box */}
-      <div className="bg-white border-2 border-dashed border-stone-300 rounded-lg p-6 text-center hover:border-stone-400 transition-colors">
-        <FileUp className="w-10 h-10 text-stone-400 mx-auto mb-2" />
-        <h3 className="font-serif font-bold text-base text-stone-800">
+      <div className="apple-card border-2 border-dashed border-black/[0.12] hover:border-[#1B3F8B]/40 rounded-3xl p-8 sm:p-10 text-center transition-all bg-white/80">
+        <div className="w-14 h-14 rounded-2xl bg-stone-100 flex items-center justify-center mx-auto mb-3.5 text-stone-600">
+          <FileUp className="w-7 h-7" />
+        </div>
+        <h3 className="font-sans font-bold text-lg text-stone-900">
           Upload Pharmacovigilance Case PDF
         </h3>
-        <p className="text-xs text-stone-500 max-w-sm mx-auto mt-1 mb-4">
+        <p className="text-xs text-stone-500 max-w-sm mx-auto mt-1 mb-5 leading-relaxed">
           Select a medical journal case report, CIOMS-I form, or hospital safety summary.
         </p>
 
@@ -255,7 +259,7 @@ On 2026-06-29, the patient presented with spontaneous gross hematuria and extens
           />
           <label
             htmlFor="pdf-upload-input"
-            className="cursor-pointer bg-[#0B1325] hover:bg-[#1B3F8B] text-white px-4 py-2 rounded-md font-mono text-xs font-bold uppercase tracking-wider transition-all"
+            className="cursor-pointer bg-[#0B1325] hover:bg-[#1B3F8B] active:scale-95 text-white px-5 py-2.5 rounded-xl font-mono text-xs font-bold uppercase tracking-wider shadow-apple-subtle hover:shadow-apple-card transition-all"
           >
             Choose PDF File
           </label>
@@ -263,20 +267,20 @@ On 2026-06-29, the patient presented with spontaneous gross hematuria and extens
           <button
             type="button"
             onClick={handleLoadSamplePdfCase}
-            className="border border-stone-300 bg-stone-50 hover:bg-stone-100 text-stone-700 px-3 py-2 rounded-md font-mono text-xs font-semibold uppercase tracking-wider transition-all"
+            className="border border-black/[0.08] bg-stone-50/80 hover:bg-stone-100 active:scale-95 text-stone-700 px-4 py-2.5 rounded-xl font-mono text-xs font-semibold uppercase tracking-wider transition-all"
           >
             Load Sample Case Study
           </button>
         </div>
 
         {file && (
-          <div className="mt-4 inline-flex items-center space-x-2 text-xs font-mono bg-stone-100 px-3 py-1.5 rounded border border-stone-200">
-            <span className="font-bold text-stone-800">{file.name}</span>
+          <div className="mt-5 inline-flex items-center space-x-2.5 text-xs font-mono bg-stone-100/90 px-3.5 py-2 rounded-2xl border border-black/[0.06] shadow-apple-subtle">
+            <span className="font-bold text-stone-900">{file.name}</span>
             <span className="text-stone-500">({(file.size / 1024).toFixed(1)} KB)</span>
             <button
               onClick={handleUploadAndExtract}
               disabled={loading}
-              className="ml-3 bg-[#1B3F8B] hover:bg-blue-800 text-white px-3 py-1 rounded text-[11px] font-bold uppercase tracking-wider disabled:opacity-50"
+              className="ml-3 bg-[#1B3F8B] hover:bg-blue-800 active:scale-95 text-white px-3.5 py-1 rounded-xl text-[11px] font-bold uppercase tracking-wider shadow-2xs transition-all disabled:opacity-50"
             >
               {loading ? 'Extracting...' : 'Parse & Stage Entities'}
             </button>
@@ -284,7 +288,7 @@ On 2026-06-29, the patient presented with spontaneous gross hematuria and extens
         )}
 
         {error && (
-          <div className="mt-3 text-xs text-rose-700 font-mono">
+          <div className="mt-3.5 text-xs text-rose-700 font-mono bg-rose-50 px-3 py-1.5 rounded-xl inline-block border border-rose-200">
             {error}
           </div>
         )}
@@ -293,39 +297,39 @@ On 2026-06-29, the patient presented with spontaneous gross hematuria and extens
       {/* Human-in-the-Loop Verification Staging View */}
       {extractedData && (
         <div className="space-y-4">
-          <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-3.5 flex items-center justify-between text-xs text-emerald-900 font-mono">
+          <div className="bg-emerald-50/90 border border-emerald-200 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs text-emerald-950 font-mono shadow-apple-subtle">
             <div className="flex items-center space-x-2">
               <ShieldCheck className="w-4 h-4 text-emerald-700 flex-shrink-0" />
               <span className="font-bold uppercase tracking-wider">
                 Entities Extracted · Review and verify fields before saving to Case Library
               </span>
             </div>
-            <span>Source: {extractedData.sourceFilename}</span>
+            <span className="text-stone-500 text-[11px]">Source: {extractedData.sourceFilename}</span>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             
             {/* Left Pane: Raw Document Preview & Provenance */}
-            <div className="lg:col-span-5 bg-white border border-stone-200 rounded-lg p-5 shadow-sm space-y-3">
-              <h4 className="font-serif font-bold text-base text-stone-900 border-b border-stone-200 pb-2 flex items-center justify-between">
+            <div className="lg:col-span-5 apple-card p-6 space-y-3">
+              <h4 className="font-sans font-bold text-base text-stone-900 border-b border-black/[0.06] pb-3 flex items-center justify-between">
                 <span>Source Document Text</span>
-                <span className="font-mono text-[10px] text-stone-400 uppercase">Provenance</span>
+                <span className="font-mono text-[10px] text-stone-400 uppercase tracking-wider">Provenance</span>
               </h4>
-              <div className="h-[460px] overflow-y-auto p-3 rounded bg-stone-50 border border-stone-200 font-mono text-[11px] text-stone-700 leading-relaxed whitespace-pre-wrap">
+              <div className="h-[460px] overflow-y-auto p-4 rounded-2xl bg-stone-50/70 border border-black/[0.05] font-mono text-[11px] text-stone-700 leading-relaxed whitespace-pre-wrap">
                 {extractedData.rawTextPreview}
               </div>
             </div>
 
             {/* Right Pane: Editable Structured Fields */}
-            <div className="lg:col-span-7 bg-white border border-stone-200 rounded-lg p-5 shadow-sm space-y-4">
-              <div className="flex items-center justify-between border-b border-stone-200 pb-2">
-                <h4 className="font-serif font-bold text-base text-stone-900">
+            <div className="lg:col-span-7 apple-card p-6 space-y-4">
+              <div className="flex items-center justify-between border-b border-black/[0.06] pb-3">
+                <h4 className="font-sans font-bold text-base text-stone-900">
                   Administrative Verification Form
                 </h4>
                 <button
                   onClick={handleVerifyAndSave}
                   disabled={saving || savedSuccess}
-                  className={`px-4 py-2 rounded text-xs font-mono font-bold uppercase tracking-wider flex items-center space-x-1.5 transition-all ${
+                  className={`px-4 py-2 rounded-xl text-xs font-mono font-bold uppercase tracking-wider flex items-center space-x-2 transition-all active:scale-95 shadow-apple-subtle ${
                     savedSuccess
                       ? 'bg-emerald-600 text-white cursor-default'
                       : 'bg-[#0B1325] hover:bg-[#1B3F8B] text-white'
@@ -354,7 +358,7 @@ On 2026-06-29, the patient presented with spontaneous gross hematuria and extens
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full border border-stone-300 rounded p-2 text-xs font-sans"
+                  className="w-full border border-black/[0.08] rounded-xl p-2.5 text-xs font-sans bg-stone-50/60 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#1B3F8B]/30 transition-all"
                 />
               </div>
 
@@ -365,7 +369,7 @@ On 2026-06-29, the patient presented with spontaneous gross hematuria and extens
                   <select
                     value={therapeuticArea}
                     onChange={(e) => setTherapeuticArea(e.target.value)}
-                    className="w-full border border-stone-300 rounded p-1.5 text-xs font-sans"
+                    className="w-full border border-black/[0.08] rounded-xl p-2.5 text-xs font-sans bg-stone-50/60 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#1B3F8B]/30 transition-all cursor-pointer"
                   >
                     <option value="Cardiology">Cardiology</option>
                     <option value="Oncology">Oncology</option>

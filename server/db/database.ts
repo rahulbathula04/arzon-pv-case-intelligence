@@ -6,18 +6,54 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+export const isTestEnv = process.env.NODE_ENV === 'test' || Boolean(process.env.VITEST);
+
 // Store database file in project root or data directory
-const dataDir = path.resolve(__dirname, '../../data');
+export const dataDir = path.resolve(__dirname, '../../data');
 if (!fs.existsSync(dataDir)) {
   fs.mkdirSync(dataDir, { recursive: true });
 }
 
-const dbPath = path.join(dataDir, 'arzon_pv.sqlite');
+// Separate test database from production database to prevent test pollution
+export const dbPath = process.env.DATABASE_PATH || 
+  (isTestEnv ? path.join(dataDir, 'test_arzon_pv.sqlite') : path.join(dataDir, 'arzon_pv.sqlite'));
+
 export const db = new Database(dbPath);
 
-// Enable WAL mode and foreign keys for high performance and integrity
+// Enable WAL mode, busy timeout, and foreign keys for high-concurrency throughput and integrity
 db.pragma('journal_mode = WAL');
 db.pragma('foreign_keys = ON');
+db.pragma('busy_timeout = 10000');
+db.pragma('synchronous = NORMAL');
+db.pragma('cache_size = -64000');
+db.pragma('temp_store = MEMORY');
+
+// Normalizes and computes a clinical content fingerprint to detect duplicate clinical cases
+export function computeClinicalFingerprint(data: {
+  title?: string;
+  therapeuticArea?: string;
+  patientInitials?: string;
+  patientAge?: number;
+  patientGender?: string;
+  suspectDrugs?: any[];
+  adverseEvents?: any[];
+}): string {
+  const normTitle = (data.title || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  const area = (data.therapeuticArea || '').toLowerCase().trim();
+  const patient = [data.patientInitials || '', data.patientAge || '', data.patientGender || ''].join(':').toLowerCase();
+  
+  const drugs = (Array.isArray(data.suspectDrugs) ? data.suspectDrugs : [])
+    .map((d: any) => (d.inn || d.name || '').toLowerCase().trim())
+    .sort()
+    .join(',');
+
+  const events = (Array.isArray(data.adverseEvents) ? data.adverseEvents : [])
+    .map((e: any) => (e.verbatim || e.meddraPt || '').toLowerCase().replace(/[^a-z0-9]/g, ''))
+    .sort()
+    .join(',');
+
+  return `${normTitle}|${area}|${patient}|${drugs}|${events}`;
+}
 
 export function initDatabase() {
   db.exec(`
@@ -25,6 +61,8 @@ export function initDatabase() {
     CREATE TABLE IF NOT EXISTS users (
       id TEXT PRIMARY KEY,
       email TEXT UNIQUE NOT NULL,
+      password_hash TEXT,
+      must_change_password INTEGER DEFAULT 0,
       full_name TEXT NOT NULL,
       role TEXT NOT NULL CHECK(role IN ('admin', 'mentor', 'student')),
       cohort TEXT,
@@ -35,6 +73,7 @@ export function initDatabase() {
     CREATE TABLE IF NOT EXISTS cases (
       id TEXT PRIMARY KEY,
       case_number TEXT UNIQUE NOT NULL,
+      clinical_fingerprint TEXT UNIQUE,
       title TEXT NOT NULL,
       therapeutic_area TEXT NOT NULL,
       difficulty TEXT NOT NULL CHECK(difficulty IN ('Beginner', 'Intermediate', 'Advanced')),
@@ -55,9 +94,13 @@ export function initDatabase() {
       verbatim_narrative TEXT NOT NULL,
       reporter_type TEXT NOT NULL,
       receipt_date TEXT NOT NULL,
+      generation_metadata TEXT,          -- JSON object (provider, model, timing, isFallback, promptVersion)
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );
+
+    -- Ensure unique index exists on clinical_fingerprint
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_cases_clinical_fingerprint ON cases(clinical_fingerprint);
 
     -- Case Versions table
     CREATE TABLE IF NOT EXISTS case_versions (
@@ -172,4 +215,57 @@ export function initDatabase() {
       value TEXT NOT NULL
     );
   `);
+
+  // Migration: Ensure clinical_fingerprint, password_hash, and generation_metadata exist
+  try {
+    db.exec('ALTER TABLE cases ADD COLUMN clinical_fingerprint TEXT;');
+  } catch {
+    // Column already exists
+  }
+  try {
+    db.exec('CREATE UNIQUE INDEX IF NOT EXISTS idx_cases_clinical_fingerprint ON cases(clinical_fingerprint);');
+  } catch {
+    // Index already exists
+  }
+  try {
+    db.exec('ALTER TABLE users ADD COLUMN password_hash TEXT;');
+  } catch {
+    // Column already exists
+  }
+  try {
+    db.exec('ALTER TABLE users ADD COLUMN must_change_password INTEGER DEFAULT 0;');
+  } catch {
+    // Column already exists
+  }
+  try {
+    db.exec('ALTER TABLE cases ADD COLUMN generation_metadata TEXT;');
+  } catch {
+    // Column already exists
+  }
+
+  // Performance Indexes for 10,000+ Concurrent Students and Assignments
+  try {
+    db.exec(`
+      CREATE INDEX IF NOT EXISTS idx_assignments_student ON assignments(student_id);
+      CREATE INDEX IF NOT EXISTS idx_assignments_case ON assignments(case_id);
+      CREATE INDEX IF NOT EXISTS idx_assignments_status ON assignments(status);
+      CREATE INDEX IF NOT EXISTS idx_assignments_due_date ON assignments(due_date);
+      CREATE INDEX IF NOT EXISTS idx_submissions_student ON submissions(student_id);
+      CREATE INDEX IF NOT EXISTS idx_submissions_case ON submissions(case_id);
+      CREATE INDEX IF NOT EXISTS idx_submissions_assignment ON submissions(assignment_id);
+      CREATE INDEX IF NOT EXISTS idx_submissions_status ON submissions(status);
+      CREATE INDEX IF NOT EXISTS idx_assessments_submission ON assessments(submission_id);
+      CREATE INDEX IF NOT EXISTS idx_mentor_reviews_submission ON mentor_reviews(submission_id);
+      CREATE INDEX IF NOT EXISTS idx_users_role ON users(role);
+      CREATE INDEX IF NOT EXISTS idx_users_cohort ON users(cohort);
+      CREATE INDEX IF NOT EXISTS idx_cases_status ON cases(status);
+      CREATE INDEX IF NOT EXISTS idx_cases_area ON cases(therapeutic_area);
+      CREATE INDEX IF NOT EXISTS idx_cases_difficulty ON cases(difficulty);
+      CREATE INDEX IF NOT EXISTS idx_audit_logs_user ON audit_logs(user_id);
+      CREATE INDEX IF NOT EXISTS idx_audit_logs_timestamp ON audit_logs(timestamp);
+      CREATE INDEX IF NOT EXISTS idx_audit_logs_entity ON audit_logs(entity_type, entity_id);
+    `);
+  } catch (err) {
+    console.error('Failed to create performance indexes:', err);
+  }
 }

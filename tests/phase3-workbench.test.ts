@@ -1,9 +1,11 @@
 import { describe, it, expect, beforeAll } from 'vitest';
 import { db, initDatabase } from '../server/db/database.js';
+import { seedDatabase } from '../server/db/seed.js';
 
 describe('Phase 3: Student Assignment Engine & PV Workbench Submissions', () => {
   beforeAll(() => {
     initDatabase();
+    seedDatabase();
   });
 
   const studentId = 'usr-student-01';

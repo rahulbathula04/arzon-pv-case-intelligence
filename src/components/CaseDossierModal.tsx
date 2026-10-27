@@ -17,7 +17,7 @@ export const CaseDossierModal: React.FC<CaseDossierModalProps> = ({
   onClose, 
   onLaunchWorkbench 
 }) => {
-  const { isStaff, user } = useAuth();
+  const { isStaff, user, getAuthHeaders } = useAuth();
   const [pvCase, setPvCase] = useState<PVCase | null>(null);
   const [versions, setVersions] = useState<CaseVersion[]>([]);
   const [loading, setLoading] = useState(true);
@@ -27,8 +27,7 @@ export const CaseDossierModal: React.FC<CaseDossierModalProps> = ({
     const fetchCase = async () => {
       try {
         setLoading(true);
-        const headers: Record<string, string> = {};
-        if (user?.id) headers['x-user-id'] = user.id;
+        const headers = getAuthHeaders();
 
         const res = await fetch(`/api/cases/${caseId}`, { headers });
         if (res.ok) {
@@ -81,11 +80,12 @@ export const CaseDossierModal: React.FC<CaseDossierModalProps> = ({
   }
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
-      <div className="bg-white rounded-xl max-w-5xl w-full max-h-[92vh] flex flex-col border border-stone-300 shadow-2xl overflow-hidden my-auto">
+    <div className="fixed inset-0 bg-stone-950/45 backdrop-blur-md z-50 overflow-y-auto animate-in fade-in duration-200">
+      <div className="flex min-h-full items-center justify-center p-3 sm:p-6">
+        <div className="bg-white rounded-3xl max-w-5xl w-full max-h-[92vh] flex flex-col border border-black/[0.08] shadow-apple-modal overflow-hidden animate-in zoom-in-95 duration-200">
         
         {/* Mandatory Fictional Warning Bar */}
-        <div className="bg-amber-500/10 border-b border-amber-500/20 px-4 py-2 flex items-center justify-between text-amber-900 text-xs font-mono">
+        <div className="bg-amber-500/[0.08] border-b border-amber-500/20 px-5 py-2.5 flex items-center justify-between text-amber-950 text-xs font-mono">
           <div className="flex items-center space-x-2">
             <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0" />
             <span className="font-bold tracking-wider uppercase">
@@ -98,36 +98,36 @@ export const CaseDossierModal: React.FC<CaseDossierModalProps> = ({
         </div>
 
         {/* Modal Header */}
-        <div className="p-4 sm:p-6 border-b border-stone-200 bg-[#FAF9F6] flex flex-wrap justify-between items-start gap-4">
+        <div className="p-5 sm:p-7 border-b border-black/[0.06] bg-[#FAF9F6]/90 flex flex-wrap justify-between items-start gap-4">
           <div>
-            <div className="flex items-center space-x-2 mb-1.5">
-              <span className="font-mono text-xs font-bold bg-[#0B1325] text-white px-2 py-0.5 rounded tracking-wider">
+            <div className="flex flex-wrap items-center gap-2 mb-2">
+              <span className="font-mono text-xs font-bold bg-[#0B1325] text-white px-2.5 py-0.5 rounded-full tracking-wider shadow-2xs">
                 {pvCase.caseNumber}
               </span>
-              <span className="font-mono text-[11px] font-semibold bg-stone-200 text-stone-800 px-2 py-0.5 rounded uppercase">
+              <span className="font-mono text-[11px] font-semibold bg-stone-200/80 text-stone-800 px-2.5 py-0.5 rounded-full uppercase ring-1 ring-black/[0.04]">
                 {pvCase.therapeuticArea}
               </span>
-              <span className={`font-mono text-[11px] font-semibold px-2 py-0.5 rounded uppercase ${
-                pvCase.difficulty === 'Beginner' ? 'bg-emerald-100 text-emerald-800' :
-                pvCase.difficulty === 'Intermediate' ? 'bg-blue-100 text-blue-800' :
-                'bg-purple-100 text-purple-800'
+              <span className={`font-mono text-[11px] font-semibold px-2.5 py-0.5 rounded-full uppercase ring-1 ${
+                pvCase.difficulty === 'Beginner' ? 'bg-emerald-50 text-emerald-800 ring-emerald-200' :
+                pvCase.difficulty === 'Intermediate' ? 'bg-blue-50 text-blue-800 ring-blue-200' :
+                'bg-purple-50 text-purple-800 ring-purple-200'
               }`}>
                 {pvCase.difficulty}
               </span>
-              <span className="font-mono text-[10px] text-stone-500 uppercase">
+              <span className="font-mono text-[10px] text-stone-500 uppercase ml-1">
                 Receipt: {pvCase.receiptDate} · Reporter: {pvCase.reporterType}
               </span>
             </div>
-            <h2 className="font-serif font-bold text-xl sm:text-2xl text-stone-900 tracking-tight">
+            <h2 className="font-sans font-bold text-xl sm:text-2xl text-stone-900 tracking-tight">
               {pvCase.title}
             </h2>
           </div>
 
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2.5">
             {onLaunchWorkbench && (
               <button
                 onClick={() => onLaunchWorkbench(pvCase.id)}
-                className="bg-[#0B1325] hover:bg-[#1B3F8B] text-white px-4 py-2 rounded-md font-mono text-xs font-bold uppercase tracking-wider flex items-center space-x-2 shadow-sm transition-all"
+                className="bg-[#0B1325] hover:bg-[#1B3F8B] active:scale-95 text-white px-4 py-2 rounded-xl font-mono text-xs font-bold uppercase tracking-wider flex items-center space-x-2 shadow-apple-subtle transition-all"
               >
                 <span>Launch in Workbench</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -135,15 +135,15 @@ export const CaseDossierModal: React.FC<CaseDossierModalProps> = ({
             )}
             <button
               onClick={onClose}
-              className="p-2 rounded-md text-stone-400 hover:text-stone-700 hover:bg-stone-100 transition-colors"
+              className="w-8 h-8 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-500 hover:text-stone-900 flex items-center justify-center transition-colors"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
           </div>
         </div>
 
         {/* Modal Sub-Tabs */}
-        <div className="px-6 border-b border-stone-200 bg-white flex space-x-4 text-xs font-mono">
+        <div className="px-6 border-b border-black/[0.06] bg-white flex space-x-4 text-xs font-mono">
           <button
             onClick={() => setActiveTab('dossier')}
             className={`py-3 border-b-2 font-bold tracking-wider uppercase transition-colors flex items-center space-x-1.5 ${
@@ -166,9 +166,9 @@ export const CaseDossierModal: React.FC<CaseDossierModalProps> = ({
               }`}
             >
               <Shield className="w-3.5 h-3.5 text-purple-600" />
-              <span className="flex items-center space-x-1">
+              <span className="flex items-center space-x-1.5">
                 <span>Reference Rubric & Key</span>
-                <span className="bg-purple-100 text-purple-800 text-[9px] px-1 rounded">RESTRICTED</span>
+                <span className="bg-purple-100 text-purple-800 text-[9px] px-1.5 py-0.2 rounded-full font-bold">RESTRICTED</span>
               </span>
             </button>
           ) : (
@@ -203,7 +203,7 @@ export const CaseDossierModal: React.FC<CaseDossierModalProps> = ({
               {/* Patient Demographics & Baseline */}
               <div className="bg-white border border-stone-200 rounded-lg p-5 shadow-sm">
                 <div className="flex items-center justify-between border-b border-stone-200 pb-2 mb-4">
-                  <h3 className="font-serif font-bold text-base text-stone-900 flex items-center space-x-2">
+                  <h3 className="font-sans font-bold text-base text-stone-900 flex items-center space-x-2">
                     <span>Patient Profile & Medical History</span>
                   </h3>
                   <span className="font-mono text-xs text-stone-500 uppercase">
@@ -246,7 +246,7 @@ export const CaseDossierModal: React.FC<CaseDossierModalProps> = ({
               {/* Suspect Medications */}
               <div className="bg-white border border-stone-200 rounded-lg p-5 shadow-sm">
                 <div className="flex items-center justify-between border-b border-stone-200 pb-2 mb-4">
-                  <h3 className="font-serif font-bold text-base text-stone-900 flex items-center space-x-2">
+                  <h3 className="font-sans font-bold text-base text-stone-900 flex items-center space-x-2">
                     <Pill className="w-4 h-4 text-blue-600" />
                     <span>Suspect Medicinal Products</span>
                   </h3>
@@ -315,7 +315,7 @@ export const CaseDossierModal: React.FC<CaseDossierModalProps> = ({
               {/* Adverse Events & Verbatim Findings */}
               <div className="bg-white border border-stone-200 rounded-lg p-5 shadow-sm">
                 <div className="flex items-center justify-between border-b border-stone-200 pb-2 mb-4">
-                  <h3 className="font-serif font-bold text-base text-stone-900 flex items-center space-x-2">
+                  <h3 className="font-sans font-bold text-base text-stone-900 flex items-center space-x-2">
                     <Activity className="w-4 h-4 text-rose-600" />
                     <span>Reported Adverse Events</span>
                   </h3>
@@ -364,7 +364,7 @@ export const CaseDossierModal: React.FC<CaseDossierModalProps> = ({
               {pvCase.labTests.length > 0 && (
                 <div className="bg-white border border-stone-200 rounded-lg p-5 shadow-sm">
                   <div className="flex items-center justify-between border-b border-stone-200 pb-2 mb-4">
-                    <h3 className="font-serif font-bold text-base text-stone-900">
+                    <h3 className="font-sans font-bold text-base text-stone-900">
                       Laboratory Tests & Diagnostic Investigations
                     </h3>
                     <span className="font-mono text-xs text-stone-500 uppercase">
@@ -411,7 +411,7 @@ export const CaseDossierModal: React.FC<CaseDossierModalProps> = ({
               {/* Full Verbatim Narrative */}
               <div className="bg-white border border-stone-200 rounded-lg p-5 shadow-sm">
                 <div className="flex items-center justify-between border-b border-stone-200 pb-2 mb-3">
-                  <h3 className="font-serif font-bold text-base text-stone-900">
+                  <h3 className="font-sans font-bold text-base text-stone-900">
                     Source Verbatim Report Narrative
                   </h3>
                   <span className="font-mono text-xs text-stone-500 uppercase">
@@ -434,7 +434,7 @@ export const CaseDossierModal: React.FC<CaseDossierModalProps> = ({
 
               {/* Expected MedDRA Terms */}
               <div className="bg-white border border-stone-200 rounded-lg p-5 shadow-sm">
-                <h4 className="font-serif font-bold text-base text-stone-900 mb-3 border-b border-stone-200 pb-2">
+                <h4 className="font-sans font-bold text-base text-stone-900 mb-3 border-b border-stone-200 pb-2">
                   Expected MedDRA Coding (Gold Standard)
                 </h4>
                 <div className="overflow-x-auto">
@@ -464,7 +464,7 @@ export const CaseDossierModal: React.FC<CaseDossierModalProps> = ({
               {/* Expected Causality & Naranjo */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="bg-white border border-stone-200 rounded-lg p-5 shadow-sm">
-                  <h4 className="font-serif font-bold text-base text-stone-900 mb-2 border-b border-stone-200 pb-2">
+                  <h4 className="font-sans font-bold text-base text-stone-900 mb-2 border-b border-stone-200 pb-2">
                     Expected Causality Assessment
                   </h4>
                   <div className="space-y-3 text-xs">
@@ -487,7 +487,7 @@ export const CaseDossierModal: React.FC<CaseDossierModalProps> = ({
                 </div>
 
                 <div className="bg-white border border-stone-200 rounded-lg p-5 shadow-sm">
-                  <h4 className="font-serif font-bold text-base text-stone-900 mb-2 border-b border-stone-200 pb-2">
+                  <h4 className="font-sans font-bold text-base text-stone-900 mb-2 border-b border-stone-200 pb-2">
                     Expected Seriousness Determination
                   </h4>
                   <div className="text-xs space-y-2">
@@ -513,7 +513,7 @@ export const CaseDossierModal: React.FC<CaseDossierModalProps> = ({
 
               {/* Model CIOMS Narrative */}
               <div className="bg-white border border-stone-200 rounded-lg p-5 shadow-sm">
-                <h4 className="font-serif font-bold text-base text-stone-900 mb-2 border-b border-stone-200 pb-2">
+                <h4 className="font-sans font-bold text-base text-stone-900 mb-2 border-b border-stone-200 pb-2">
                   Gold-Standard Model CIOMS-I Narrative
                 </h4>
                 <div className="p-4 rounded-md bg-stone-50 border border-stone-200 font-sans text-xs sm:text-sm text-stone-800 leading-relaxed whitespace-pre-line">
@@ -523,7 +523,7 @@ export const CaseDossierModal: React.FC<CaseDossierModalProps> = ({
 
               {/* Grading Rubric Points */}
               <div className="bg-white border border-stone-200 rounded-lg p-5 shadow-sm">
-                <h4 className="font-serif font-bold text-base text-stone-900 mb-3 border-b border-stone-200 pb-2">
+                <h4 className="font-sans font-bold text-base text-stone-900 mb-3 border-b border-stone-200 pb-2">
                   Grading Rubric Breakdown & Weighting (100 Total Points)
                 </h4>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4 font-mono text-xs">
@@ -567,7 +567,7 @@ export const CaseDossierModal: React.FC<CaseDossierModalProps> = ({
           {/* TAB 3: VERSION HISTORY (STAFF ONLY) */}
           {activeTab === 'versions' && (
             <div className="bg-white border border-stone-200 rounded-lg p-5 shadow-sm space-y-4">
-              <h4 className="font-serif font-bold text-base text-stone-900 border-b border-stone-200 pb-2">
+              <h4 className="font-sans font-bold text-base text-stone-900 border-b border-stone-200 pb-2">
                 Version Control & Audit Trail
               </h4>
               <div className="space-y-3">
@@ -608,6 +608,7 @@ export const CaseDossierModal: React.FC<CaseDossierModalProps> = ({
           </button>
         </div>
 
+      </div>
       </div>
     </div>
   );

@@ -3,3 +3,13 @@ dist/
 .DS_Store
 Thumbs.db
 *.log
+*.env
+*.env.*
+!.env.example
+
+# SQLite temporary runtime files & test databases
+data/*.sqlite-shm
+data/*.sqlite-wal
+data/test_*.sqlite*
+data/backups/
+scratch/
